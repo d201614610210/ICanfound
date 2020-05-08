@@ -4,21 +4,22 @@
       <img src="../../assets/img/head.png" alt />
       <p class="username">Daimj</p>
       <div class="type">
-        <ul class="address">
-          <li>收货地址</li>
+        <ul :class="{'active':address}">
+          <li @click="address=!address">收货地址</li>
           <li>我的收货地址</li>
           <li>添加收货地址</li>
         </ul>
-        <ul class="order">
-          <li>购物订单</li>
+        <ul :class="{'active':order}">
+          <li @click="order=!order">购物订单</li>
           <li>我的订单</li>
         </ul>
-        <ul class="car">
-          <li>购物车</li>
+        <ul :class="{'active':car}">
+          <li @click="car=!car">购物车</li>
           <li>我的购物车</li>
         </ul>
       </div>
     </aside>
+    <router-view />
   </div>
 </template>
 
@@ -26,7 +27,10 @@
 export default {
   data() {
     return {
-      activeNames: ["1"]
+      activeNames: ["1"],
+      address:false,
+      order:false,
+      car:false,
     };
   },
   methods: {
@@ -38,22 +42,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-html,body {
-  height: 100%;
-}
 .my {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  bottom: 0;
+  top: 30px;
+  left: 0;
+  right: 0;
+  display: flex;
   aside {
     width: 200px;
-    height:100%;
+    height: 100%;
     text-align: center;
-    overflow: hidden;
     border-right: 1px solid #666;
     img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
+      margin-top: 30px;
       margin-bottom: 10px;
     }
     .type {
@@ -64,15 +69,24 @@ html,body {
         padding: 5px 0;
       }
       ul {
+        max-height: 50px;
+        overflow: hidden;
+        transition: 0.6s;
         li {
-          padding: 5px 30px;
+          height:50px;
+          line-height:50px;
+          padding-left:40px;
+          font-size:16px;
         }
         li:nth-child(1) {
-          padding-left: 20px;
+          padding-left: 30px;
         }
         li:hover {
-          background: #999;
+          background: #f3f3f3;
         }
+      }
+      ul.active {
+        max-height: 150px;
       }
     }
   }

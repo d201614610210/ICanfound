@@ -16,6 +16,10 @@ import Pay from "../components/Order/Pay.vue"
 import PayDone from "../components/Order/payDone.vue"
 import Feedback from "../components/feedback.vue"
 import My from "../components/My/My.vue"
+import Address from "../components/My/Address.vue"
+import AddAddress from "../components/My/addAddress.vue"
+import MyCar from "../components/My/myCar.vue"
+import MyOrder from "../components/My/myOrder.vue"
 import Footer from '../components/Footer/Footer'
 import Header from '../components/Header/Header'
 import Regist from '../components/Regist/Regist.vue'
@@ -111,8 +115,31 @@ export default new Router({
     },
     {
       path: '/my',
+      redirect: '/my/myorder',
       name: 'My',
-      component: My
+      component: My,
+      children: [
+        {
+          path: 'address',
+          name: "Address",
+          component: Address,
+        },
+        {
+          path: 'addaddress',
+          name: "AddAddress",
+          component: AddAddress,
+        },
+        {
+          path: 'myorder',
+          name: "MyOrder",
+          component: MyOrder,
+        },
+        {
+          path: 'mycar',
+          name: "MyCar",
+          component: MyCar,
+        },
+      ]
     }
   ]
 })

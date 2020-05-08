@@ -22,13 +22,13 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
-          <el-table-column label="图片" width="120" align="center">
+          <el-table-column label="图片" width="80" align="center">
             <img src="../../assets/img/goodsDetail/pack/1.jpg" alt />
           </el-table-column>
-          <el-table-column prop="name" label="标题" width="120" align="center"></el-table-column>
-          <el-table-column prop="address" label="套餐" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="address" label="数量" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="address" label="价格" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="title" label="标题" align="center"></el-table-column>
+          <el-table-column prop="type" label="套餐" width="150" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="amount" label="数量" width="80" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="price" label="价格" width="80" show-overflow-tooltip align="center"></el-table-column>
         </el-table>
       </div>
       <!-- 收货人信息 -->
@@ -67,19 +67,28 @@ export default {
       // 表格数据
       tableData: [
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          num: "202005090134",
+          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
+          type: "4.7英寸-深邃蓝",
+          amount: "1",
+          price: "28.00",
+          date: "2020-05-09-01-34"
         },
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          num: "202005090134",
+          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
+          type: "4.7英寸-深邃蓝",
+          amount: "1",
+          price: "28.00",
+          date: "2020-05-09-01-34"
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
+          num: "202005090134",
+          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
+          type: "4.7英寸-深邃蓝",
+          amount: "1",
+          price: "28.00",
+          date: "2020-05-09-01-34"
         }
       ],
       // 表格选中
@@ -173,8 +182,8 @@ export default {
         font-size: 14px;
         color: #999;
       }
-      .el-tree{
-        margin-top:15px;
+      .el-tree {
+        margin-top: 15px;
       }
     }
     .commit {
@@ -204,6 +213,5 @@ export default {
     clear: both;
     visibility: hidden;
   }
-  
 }
 </style>
