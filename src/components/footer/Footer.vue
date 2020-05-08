@@ -92,12 +92,15 @@ export default {
 
 <style lang='scss' scoped>
 .footer {
-  background: #eee;
+  clear: both;
+  background: rgb(221, 219, 219);
   padding-bottom:15px;
+  overflow: hidden;
   .footerCont {
     width: 1000px;
     margin: 0 auto;
     color: #666;
+    text-align: center;
     ul.declear {
       display: flex;
       justify-content: space-between;

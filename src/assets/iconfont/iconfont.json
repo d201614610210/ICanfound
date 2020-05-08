@@ -6,6 +6,55 @@
   "description": "ICanfound商城",
   "glyphs": [
     {
+      "icon_id": "8605446",
+      "name": "信用承诺",
+      "font_class": "lianhe",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "11182404",
+      "name": "全国联保",
+      "font_class": "quanguolianbao",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "12073340",
+      "name": "服",
+      "font_class": "fu",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "13291026",
+      "name": "正品",
+      "font_class": "zhengpin",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "2154814",
+      "name": "logo",
+      "font_class": "logo",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "11966778",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "3607209",
+      "name": "定位",
+      "font_class": "location",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
       "icon_id": "411619",
       "name": "01",
       "font_class": "01",
