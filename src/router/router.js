@@ -20,12 +20,7 @@ import Address from "../components/My/Address.vue"
 import AddAddress from "../components/My/addAddress.vue"
 import MyCar from "../components/My/myCar.vue"
 import MyOrder from "../components/My/myOrder.vue"
-import Footer from '../components/Footer/Footer'
-import Header from '../components/Header/Header'
 import Regist from '../components/Regist/Regist.vue'
-import cellPhoneNum from '../components/Regist/cellPhoneNum.vue'
-import accountInfo from '../components/Regist/accountInfo.vue'
-import registSuccess from '../components/Regist/registSuccess.vue'
 import Login from '../components/Login/Login.vue'
 // import Regist from '../components/Regist/Regist.vue'
 
@@ -39,12 +34,6 @@ export default new Router({
       path: '/',  //首页
       component: Home,
       name: 'Home'
-    },
-    // 订单
-    {
-      path: '/order',
-      name: 'Order',
-      component: Order
     },
     // 列表页
     {
@@ -80,7 +69,13 @@ export default new Router({
           name: 'Comment',
           component: Comment,
         },
-      ]
+      ],
+    },
+    // 订单
+    {
+      path: '/order',
+      name: 'Order',
+      component: Order
     },
     // 支付页
     {
@@ -99,7 +94,6 @@ export default new Router({
       path: '/regist',
       name: 'Regist',
       component: Regist,
-
     },
     // 登录页
     {
@@ -107,12 +101,7 @@ export default new Router({
       name: 'Login',
       component: Login
     },
-    // 意见反馈
-    {
-      path: '/feedback',
-      name: 'Feedback',
-      component: Feedback
-    },
+    // 用户页
     {
       path: '/my',
       redirect: '/my/myorder',
@@ -140,8 +129,24 @@ export default new Router({
           component: MyCar,
         },
       ]
+    },
+    // 意见反馈
+    {
+      path: '/feedback',
+      name: 'Feedback',
+      component: Feedback
+    },
+  ],
+  // 设置跳转之后自动回到顶部
+  scrollBehavior(to, from, savedPosition) {
+    // 回退时退到原先位置
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      if (to.path.split('/').length > 2) return;
+      return { x: 0, y: 0 }
     }
-  ]
+  }
 })
 
 

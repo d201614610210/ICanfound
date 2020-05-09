@@ -6,16 +6,16 @@
       <div class="type">
         <ul :class="{'active':address}">
           <li @click="address=!address">收货地址</li>
-          <li>我的收货地址</li>
-          <li>添加收货地址</li>
+          <router-link to='/my/address' tag="li">我的收货地址</router-link>
+          <router-link to='/my/addaddress' tag="li">添加收货地址</router-link>
         </ul>
         <ul :class="{'active':order}">
           <li @click="order=!order">购物订单</li>
-          <li>我的订单</li>
+          <router-link to='/my/myorder' tag="li">我的订单</router-link>
         </ul>
         <ul :class="{'active':car}">
           <li @click="car=!car">购物车</li>
-          <li>我的购物车</li>
+          <router-link to='/my/mycar' tag="li">我的购物车</router-link>
         </ul>
       </div>
     </aside>

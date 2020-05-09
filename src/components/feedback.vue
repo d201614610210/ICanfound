@@ -10,7 +10,7 @@
           <br />
           <i>反馈信息</i>
           <el-input v-model="feedInfo" placeholder="请输入反馈信息" type="textarea" rows="10"></el-input>
-          <el-button type="primary">提交</el-button>
+          <el-button type="primary" @click="commit">提交</el-button>
         </div>
       </div>
     </div>
@@ -24,6 +24,19 @@ export default {
       feedTitle: "",
       feedInfo: ""
     };
+  },
+  methods: {
+    commit() {
+      if (!this.feedTitle) {
+        this.$message.error("请输入标题");
+      } else if (!this.feedInfo) {
+        this.$message.error("请输入内容");
+      } else {
+        this.$message.success("您的反馈已提交");
+        this.feedInfo = "";
+        this.feedTitle = "";
+      }
+    }
   }
 };
 </script>
@@ -77,9 +90,9 @@ export default {
           width: 300px;
           vertical-align: top;
         }
-        .el-button{
-          float:right;
-          margin-top:20px;
+        .el-button {
+          float: right;
+          margin-top: 20px;
         }
       }
     }

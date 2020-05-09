@@ -11,23 +11,27 @@
           @mouseleave="hideDetail"
         >
           <span v-for="(item,index) in items" :key="index">
-            {{item}}
+            <b>{{item}}</b>
             <i v-if="index!==items.length-1">/</i>
           </span>
           <!-- 二级列表 -->
           <transition name="el-fade-in">
             <ul class="LeftListDetail" v-if="activeLi===indexs">
-              <li v-for="(items,indexs) in LeftListDetail" :key="indexs">
+              <router-link
+                to="/goodsList"
+                tag="li"
+                v-for="(items,indexs) in LeftListDetail"
+                :key="indexs"
+              >
                 <span v-for="(item,index) of items" :key="index">
-                  {{item}}
+                  <b>{{item}}</b>
                   <i v-if="index!==items.length-1">|</i>
                 </span>
-              </li>
+              </router-link>
             </ul>
           </transition>
         </li>
       </ul>
-
       <!-- 右侧图片 -->
       <div class="rightShow">
         <!-- 小列表 -->
@@ -38,13 +42,28 @@
         <div class="scroll">
           <el-carousel trigger="click">
             <el-carousel-item v-for="item in 5" :key="item">
-              <img :src="require('../../assets/img/nav/'+item+'.jpg')" alt />
+              <router-link
+                to="/goodsList"
+                tag="img"
+                :src="require('../../assets/img/nav/'+item+'.jpg')"
+                alt
+              ></router-link>
             </el-carousel-item>
           </el-carousel>
         </div>
         <div class="fixed">
-          <img src="../../assets/img/nav/nav_showimg1.jpg" alt />
-          <img src="../../assets/img/nav/nav_showimg2.jpg" alt />
+          <router-link
+            to="/goodsList"
+            tag="img"
+            :src="require('../../assets/img/nav/nav_showimg1.jpg')"
+            alt
+          ></router-link>
+          <router-link
+            to="/goodsList"
+            tag="img"
+            :src="require('../../assets/img/nav/nav_showimg2.jpg')"
+            alt
+          ></router-link>
         </div>
       </div>
     </div>
@@ -55,6 +74,7 @@
 export default {
   data() {
     return {
+      // 首页小导航
       TopList: [
         "秒杀",
         "优惠券",
@@ -66,6 +86,7 @@ export default {
         "全球购",
         "金融"
       ],
+      // 首页左侧一级导航
       LeftList: [
         ["家用电器"],
         ["手机", "运营商", "数码"],
@@ -82,6 +103,7 @@ export default {
         ["医药保健", "计生情趣"],
         ["图书", "音像", "电子书"]
       ],
+      // 首页左侧二级导航
       LeftListDetail: [
         [
           "面部护肤",
@@ -242,12 +264,14 @@ export default {
     };
   },
   methods: {
+    // 一级导航鼠标划入显示二级导航
     showDetail(activeLi) {
       this.activeLi = activeLi;
     },
+    // 一级导航鼠标划出隐藏二级导航
     hideDetail() {
       this.activeLi = -1;
-    }
+    },
   }
 };
 </script>
@@ -270,7 +294,10 @@ export default {
       > li {
         padding: 5px 20px;
         color: #fff;
-        span:hover {
+        span b{
+          cursor: pointer;
+        }
+        span b:hover {
           color: red;
         }
       }
@@ -286,12 +313,10 @@ export default {
         background: #fff;
         color: #000;
         li {
-          margin: 15px 0;
+          font-size: 12px;
+          margin: 20px 0;
           span i {
             padding: 0 5px;
-          }
-          span:hover {
-            color: red;
           }
           span:nth-child(1) {
             font-weight: 900;
@@ -308,6 +333,7 @@ export default {
         li {
           margin-right: 30px;
           font-weight: 900;
+          cursor: pointer;
         }
         li:hover {
           color: red;
@@ -315,10 +341,16 @@ export default {
       }
       .scroll {
         margin-bottom: 10px;
+        img {
+          cursor: pointer;
+        }
       }
       .fixed {
         display: flex;
         justify-content: space-between;
+        img {
+          cursor: pointer;
+        }
       }
     }
   }

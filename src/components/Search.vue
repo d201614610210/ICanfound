@@ -4,7 +4,7 @@
       <!-- 搜索框 -->
       <el-input placeholder="请输入你想查找的商品" v-model="inputSearch">
         <template slot="append">
-          <i class="iconfont iconsearch"></i>
+          <router-link to="/goodsList" tag="i" class="iconfont iconsearch"></router-link>
         </template>
       </el-input>
       <p style="padding:5px"></p>
@@ -15,6 +15,7 @@
         :key="tag.name"
         closable
         :type="tag.type"
+        @click="tagClick(tag.name)"
         @close="handleClose(tag)"
       >{{tag.name}}</el-tag>
     </div>
@@ -38,6 +39,10 @@ export default {
   methods: {
     handleClose(tag) {
       this.tags.splice(this.tags.indexOf(tag), 1);
+    },
+    // 点击选项按钮
+    tagClick(val){
+      this.inputSearch=val;
     }
   }
 };
@@ -45,14 +50,15 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-  padding:20px 0;
+  padding: 20px 0;
   // background: rgb(243, 242, 242);
   .searchCont {
     width: 550px;
     margin: 0 auto;
     // text-align: center;
-    .el-tag{
-      margin-right:5px;
+    .el-tag {
+      margin-right: 5px;
+      cursor: pointer;
     }
   }
 }

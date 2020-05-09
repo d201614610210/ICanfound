@@ -28,7 +28,9 @@
           <el-table-column prop="title" label="标题" align="center"></el-table-column>
           <el-table-column prop="type" label="套餐" width="150" show-overflow-tooltip align="center"></el-table-column>
           <el-table-column prop="amount" label="数量" width="80" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="price" label="价格" width="80" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="price" label="价格" width="80" show-overflow-tooltip align="center">
+            <template slot-scope="scope">{{scope.row.price.toFixed(2)}}</template>
+          </el-table-column>
         </el-table>
       </div>
       <!-- 收货人信息 -->
@@ -36,10 +38,27 @@
       <div class="customerInfo">
         <span>
           <i class="iconfont iconxuanze"></i>
-          未选择
+          {{checkedName}}
         </span>
-        <b>请选择地址</b>
-        <el-tree :data="data" :props="defaultProps" show-checkbox @node-click="handleNodeClick"></el-tree>
+        <b>{{checkedAddr}}</b>
+        <!-- 地址选择 -->
+        <el-collapse>
+          <el-collapse-item title="选择地址">
+            <!-- 可供选择的地址信息 -->
+            <el-radio
+              v-model="radio"
+              :label="index"
+              v-for="(item,index) in addressData"
+              :key="index"
+              @change="choiceAddress"
+            >
+              <span>{{item.name}}</span>
+              <span>{{item.province+item.city+item.country}}</span>
+              <span>{{item.phone}}</span>
+              <span>{{item.postalCode}}</span>
+            </el-radio>
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <!-- 备注 -->
       <p>备注</p>
@@ -50,9 +69,9 @@
       <div class="commit">
         <p>
           提交订单应付总额：
-          <span>￥0.00</span>
+          <span>￥{{allCost.toFixed(2)}}</span>
         </p>
-        <el-button type="danger">支付订单</el-button>
+        <router-link to='/pay' tag='el-button'>支付订单</router-link>
       </div>
     </div>
   </div>
@@ -71,7 +90,7 @@ export default {
           title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
           type: "4.7英寸-深邃蓝",
           amount: "1",
-          price: "28.00",
+          price: 28,
           date: "2020-05-09-01-34"
         },
         {
@@ -79,7 +98,7 @@ export default {
           title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
           type: "4.7英寸-深邃蓝",
           amount: "1",
-          price: "28.00",
+          price: 28,
           date: "2020-05-09-01-34"
         },
         {
@@ -87,32 +106,39 @@ export default {
           title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
           type: "4.7英寸-深邃蓝",
           amount: "1",
-          price: "28.00",
+          price: 28,
           date: "2020-05-09-01-34"
         }
       ],
-      // 表格选中
-      multipleSelection: [],
-      // 手风琴信息
-      data: [
+      // 地址信息
+      addressData: [
         {
-          label: "选择地址",
-          children: [
-            {
-              label: "Gavin 广东省 广州市 燕岭路633号 152****0609 510000"
-            },
-            {
-              label: "Kevin 上海市 上海市 沙新镇 158****0888 200120"
-            }
-          ]
+          name: "Daimj",
+          province: "河北省",
+          city: "邢台市",
+          country: "十里亭镇西油村",
+          phone: "13229079796",
+          postalCode: "054100"
+        },
+        {
+          name: "Daimj",
+          province: "河北省",
+          city: "邢台市",
+          country: "十里亭镇西油村",
+          phone: "13229079796",
+          postalCode: "054100"
         }
       ],
-      defaultProps: {
-        children: "children",
-        label: "label"
-      },
+      // 单选框识别
+      radio: "1",
+      // 选中的收件人
+      checkedName: "未选择",
+      // 选中的收货地址
+      checkedAddr: "请选择地址",
       // 备注
-      input: ""
+      input: "",
+      // 总金额
+      allCost: 0
     };
   },
   components: {
@@ -120,13 +146,22 @@ export default {
     GoodsNav
   },
   methods: {
-    //购物车列表点击事件
+    //购物车列表勾选
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.allCost = 0;
+      val.forEach(element => {
+        this.allCost += element.price;
+      });
+      console.log(this.allCost);
     },
-    // 手风琴点击事件
-    handleNodeClick(data) {
-      console.log(data);
+    // 地址选择事件
+    choiceAddress(val) {
+      // 参数是选项的索引
+      this.checkedName = this.addressData[val].name;
+      this.checkedAddr =
+        this.addressData[val].province +
+        this.addressData[val].city +
+        this.addressData[val].country;
     }
   }
 };
@@ -171,7 +206,7 @@ export default {
       width: auto;
       padding: 20px;
       border: 1px dotted #ccc;
-      span {
+      > span {
         padding: 5px 20px;
         background: #f90013;
         font-size: 14px;
@@ -182,8 +217,8 @@ export default {
         font-size: 14px;
         color: #999;
       }
-      .el-tree {
-        margin-top: 15px;
+      .el-radio__label span {
+        margin-right: 10px;
       }
     }
     .commit {
@@ -200,9 +235,6 @@ export default {
           font-size: 30px;
         }
       }
-      button {
-        background: #f90013;
-      }
     }
   }
   .orderCont:after {
@@ -212,6 +244,41 @@ export default {
     height: 0;
     clear: both;
     visibility: hidden;
+  }
+}
+</style>
+<style lang="scss">
+.order {
+  // 最外围大框
+  .el-collapse {
+    margin-top: 10px;
+    border: 1px solid #c0c4cc;
+    padding-left: 20px;
+    .el-collapse-item:last-child {
+      margin-bottom: 0;
+    }
+    // 小箭头
+    .el-collapse-item__arrow {
+      margin-left: 10px;
+      margin-top: 1px;
+    }
+    .el-collapse-item__header {
+      border-bottom: 0;
+    }
+  }
+  // 单选框
+  .el-collapse-item__wrap {
+    .el-collapse-item__content {
+      padding-bottom: 0;
+      .el-radio {
+        display: block;
+        height: 30px;
+        line-height: 30px;
+        .el-radio__label span {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
 </style>

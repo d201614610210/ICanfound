@@ -1,73 +1,37 @@
 <template>
-  <div class="eat">
-    <div class="eatCont">
+  <div class="digital">
+    <div class="digitalCont">
       <!-- 标题 -->
       <header>
         <span>电脑数码</span>
         <ul class="digitalTips">
-          <li v-for="item in dataList" :key="item">{{item}}</li>
+          <router-link to="/goodsList" tag="li" v-for="item in dataList" :key="item">{{item}}</router-link>
         </ul>
       </header>
       <!-- 展示区 -->
       <div class="digitalShow">
         <!-- 左侧展区 -->
-        <div class="show">
+        <div class="show" v-for="item in 2" :key="item">
           <!-- 左--上 -->
           <div class="showTop">
             <!-- 左--左上 -->
-            <aside>
+            <router-link to="/goodsList" tag="aside">
               <img src="../../assets/img/index/computer/item-computer-1.jpg" alt />
-            </aside>
+            </router-link>
             <!-- 左--右上 -->
             <ul class="showTips">
-              <li v-for="item in 4" :key="item">
+              <router-link to="/goodsList" tag="li" v-for="item in 4" :key="item">
                 <img src="../../assets/img/index/computer/item-computer-1-3.jpg" alt />
                 <p>电脑馆</p>
                 <b>笔记本999元限量秒</b>
-              </li>
+              </router-link>
             </ul>
           </div>
           <!-- 左--下 -->
           <ul class="showBottom">
-            <li>
+            <router-link to="/goodsList" tag="li" v-for="item in 3" :key="item">
               <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
-            <li>
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
-            <li>
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
-          </ul>
-        </div>
-        <!-- 右侧展区 -->
-        <div class="show">
-          <!-- 左--上 -->
-          <div class="showTop">
-            <!-- 左--左上 -->
-            <aside>
-              <img src="../../assets/img/index/computer/item-computer-1.jpg" alt />
-            </aside>
-            <!-- 左--右上 -->
-            <ul class="showTips">
-              <li v-for="item in 4" :key="item">
-                <img src="../../assets/img/index/computer/item-computer-1-3.jpg" alt />
-                <p>电脑馆</p>
-                <b>笔记本999元限量秒</b>
-              </li>
-            </ul>
-          </div>
-          <!-- 左--下 -->
-          <ul class="showBottom">
-            <li>
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
-            <li>
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
-            <li>
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
-            </li>
+            </router-link>
           </ul>
         </div>
       </div>
@@ -80,35 +44,33 @@ export default {
   data() {
     return {
       dataList: [
-        "休闲零食",
-        "坚果",
-        "牛奶",
-        "饮料冲调",
-        "食用油",
-        "大米",
-        "白酒",
-        "红酒",
-        "烧烤食材",
-        "牛排",
-        "樱桃",
+        "电脑馆",
+        "游戏极品",
+        "装机大师",
+        "职场焕新",
+        "女神频道",
+        "虚拟现实",
+        "二合一平板",
+        "电子教育",
+        "万物周刊"
       ]
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.eat {
+.digital {
   width: 100%;
   margin-top: 10px;
-  .eatCont {
+  .digitalCont {
     width: 1000px;
     margin: 0 auto;
     background: #fff;
     header {
       height: 50px;
       line-height: 50px;
-      background: #ecb226;
+      background: #4488a7;
       padding: 0 20px 0 15px;
       > span {
         font-weight: 900;
@@ -129,11 +91,11 @@ export default {
           line-height: 30px;
           font-size: 12px;
           color: #fff;
-          background: #eeb955;
-          border:1px solid #eeb955;
+          background: #6da6be;
+          border: 1px solid #6da6be;
         }
-        li:hover{
-          border:1px solid #fff;
+        li:hover {
+          border: 1px solid #fff;
         }
       }
     }
@@ -141,7 +103,7 @@ export default {
       display: flex;
       .show {
         width: 500px;
-        padding:0 0 10px 10px;
+        padding: 0 0 10px 10px;
         .showTop {
           overflow: hidden;
           aside {
@@ -193,10 +155,10 @@ export default {
             width: 150px;
             overflow: hidden;
           }
-          img{
+          img {
             transition: 0.2s;
           }
-          img:hover{
+          img:hover {
             transform: translateX(-10px);
           }
         }

@@ -20,12 +20,12 @@
       </header>
       <!-- 抢购区列表 -->
       <div class="secKillShow">
-        <div class="items" v-for="item in 5" :key="item">
+        <router-link to="/goodsList" tag="div" class="items" v-for="item in 5" :key="item">
           <img src="../../assets/img/index/seckill/seckill-item1.jpg" alt />
           <p>【赠小风扇】 维他 柠檬茶 250ml*32盒 礼品装 整箱</p>
           <span>￥71.9</span>
           <del>89.6</del>
-        </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default {
   },
   mounted() {
     var time = 59;
-    var timeId=setInterval(() => {
+    var timeId = setInterval(() => {
       // time<=10?time<=0?time=59:this.second='0'+time:this.second=time;
       if (time < 10) {
         if (time < 0) {
@@ -145,6 +145,7 @@ export default {
         img {
           margin-left: 10px;
           transition: transform 0.2s;
+          cursor: pointer;
         }
         img:hover {
           transform: translateY(-10px);

@@ -11,7 +11,7 @@
           首页
         </el-breadcrumb-item>
         <el-breadcrumb-item>
-          <i class="iconfont iconbaobao_huaban"></i>
+          <i class="iconfont iconbaobao_huaban" style="cursor:pointer"></i>
         </el-breadcrumb-item>
       </el-breadcrumb>
       <!-- 选项 -->
@@ -50,7 +50,7 @@
           </el-button>
         </header>
         <ul class="listTips">
-          <li>
+          <router-link to="/goodsDetail" tag="li" v-for="item in 20" :key="item">
             <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
             <div>
               <span>￥29.9</span>
@@ -61,187 +61,7 @@
               </p>
               <b>歌乐力手配专营店</b>
             </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
-          <li>
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
-            <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
-              <p class="comment">
-                已有
-                <span>6080</span>人评价
-              </p>
-              <b>歌乐力手配专营店</b>
-            </div>
-          </li>
+          </router-link>
         </ul>
       </div>
       <!-- 分页 -->
@@ -327,7 +147,7 @@ export default {
   methods: {
     activeBtn(index) {
       this.active = index;
-    }
+    },
   }
 };
 </script>
@@ -372,6 +192,7 @@ export default {
         span {
           color: #005aa0;
           margin-right: 15px;
+          cursor:pointer;
         }
       }
       td:nth-child(1) {

@@ -35,30 +35,33 @@ export default {
   },
   methods: {
     nextStep() {
-      if (this.activeStep >= 2) return;
-      // 若当前是第一步
-      if (this.activeStep === 0) {
-        var step1 = this.$refs.phone.submitForm();
-        if (!step1) {
-          this.$message.error("请填写正确信息");
-        } else {
-          this.activeStep++;
-          document.querySelector('button').innerText='完成'
+      if (this.activeStep > 2) return;
+      switch (this.activeStep) {
+        case 0: {
+          var step1 = this.$refs.phone.submitForm();
+          if (!step1) {
+            this.$message.error("请填写正确信息");
+          } else {
+            this.activeStep++;
+            document.querySelector("button").innerText = "完成";
+          }
+          break;
         }
-      }
-      // 若当前是第二步
-      if (this.activeStep === 1) {
-        var step2 = this.$refs.account.submitForm();
-        if (!step2) {
-          this.$message.error("请填写正确信息");
-        } else {
-          this.activeStep++;
-          document.querySelector('button').innerText='去登录'
+        case 1: {
+          var step2 = this.$refs.account.submitForm();
+          if (!step2) {
+            this.$message.error("请填写正确信息");
+          } else {
+            this.activeStep++;
+            document.querySelector("button").innerText = "去登录";
+          }
+          break;
         }
-      }
-      // 若当前是第三步
-      if(this.activeStep===2){
-        // 跳转到登录页面
+        case 2: {
+          console.log(123)
+          this.$router.push("/login");
+          break;
+        }
       }
     }
   }
@@ -116,12 +119,12 @@ export default {
     border-color: rgb(19, 125, 211);
   }
   // 步骤条整体
-  .el-steps{
-    margin:0 0 20px 60px;
+  .el-steps {
+    margin: 0 0 20px 60px;
   }
   // 步骤条下面的文字
-  .el-step__main{
-    margin-left:12px;
+  .el-step__main {
+    margin-left: 12px;
     transform: translateX(-50%);
     text-align: center;
   }

@@ -3,18 +3,22 @@
     <header>商品介绍</header>
     <ul>
       <li>
-        <img src="../../assets/img/goodsDetail/intro/1.jpg" alt="">
-        <img src="../../assets/img/goodsDetail/intro/1.jpg" alt="">
-        <img src="../../assets/img/goodsDetail/intro/1.jpg" alt="">
-        <img src="../../assets/img/goodsDetail/intro/1.jpg" alt="">
-        <img src="../../assets/img/goodsDetail/intro/1.jpg" alt="">
+        <img :src="require('../../assets/img/goodsDetail/intro/'+index+'.jpg')" alt="" v-for="index in 5" :key="index">
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      imgData:[
+        "require('')"
+      ]
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

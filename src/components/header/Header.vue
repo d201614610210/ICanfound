@@ -10,30 +10,30 @@
       <div class="headerNav">
         <!-- 固定内容 -->
         <ul class="fixCont">
-          <li>购物车</li>
+          <router-link to="/my/mycar" tag="li">购物车</router-link>
           <span style="padding:0 5px;">|</span>
           <li>网站导航</li>
           <span style="padding:0 5px;">|</span>
-          <li>意见反馈</li>
+          <router-link to="/feedback" tag="li">意见反馈</router-link>
           <span style="padding:0 5px;">|</span>
-          <li>商城首页</li>
+          <router-link to="/" tag="li">商城首页</router-link>
           <span style="padding:0 5px;">|</span>
         </ul>
         <!-- 登陆之前 -->
         <ul class="unLogin" v-if="false">
           <li>
             <span>您好，请</span>
-            <span class="loginBtn">
+            <router-link to="/login" tag="span" class="loginBtn">
               登录
               <i class="iconfont iconuser"></i>
-            </span>
+            </router-link>
           </li>
           <span style="padding:0 5px;">|</span>
           <li>
-            <span class="registBtn">
+            <router-link to="regist" tag="span" class="registBtn">
               免费注册
               <i class="iconfont iconuser"></i>
-            </span>
+            </router-link>
           </li>
         </ul>
         <!-- 登陆之后 -->
@@ -47,11 +47,12 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
                 <i class="iconfont iconhome_n"></i>
-                <span>我的主页</span>
+                <router-link to="/my" tag="span">我的主页</router-link>
+                <!-- <span>我的主页</span> -->
               </el-dropdown-item>
               <el-dropdown-item>
                 <i class="iconfont iconhome_n"></i>
-                <span>我的主页</span>
+                <router-link to="/login" tag="span" @click="quit">退出登录</router-link>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       cityName: "",
-      userName: "待定"
+      userName: "Daimj"
     };
   },
   mounted() {
@@ -80,6 +81,10 @@ export default {
       getCurrentCityName().then(city => {
         this.cityName = city;
       });
+    },
+    // 退出登录
+    quit() {
+      console.log("你退出了");
     }
   }
 };
@@ -89,7 +94,7 @@ export default {
 .header {
   background: rgb(221, 219, 219);
   overflow: hidden;
-  padding:5px 0;
+  padding: 5px 0;
   .headerCont {
     width: 1300px;
     margin: 0 auto;
@@ -127,6 +132,7 @@ export default {
       }
       .user {
         float: left;
+        cursor: pointer;
       }
     }
   }

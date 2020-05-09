@@ -9,7 +9,7 @@
       <img src="../../assets/img/pay/pay-demo.png" alt />
       <div class="payCode">
         <img src="../../assets/img/pay/pay-qrscan.png" alt />
-        <p>点击我，完成支付</p>
+        <router-link to="/paydone" tag="p">点击我，完成支付</router-link>
       </div>
     </div>
   </div>

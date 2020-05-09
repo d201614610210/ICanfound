@@ -1,20 +1,28 @@
 <template>
   <ul class="goodsNav">
-    <li>全部商品分类</li>
-    <li>首页</li>
-    <li>服装城</li>
-    <li>美妆馆</li>
-    <li>BIT超市</li>
-    <li>生鲜</li>
-    <li>全球购</li>
-    <li>闪购</li>
-    <li>拍卖</li>
-    <li>金融</li>
+    <router-link to="/" tag="li" v-for="item in navList" :key="item">{{item}}</router-link>
   </ul>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      navList: [
+        "全部商品分类",
+        "首页",
+        "服装城",
+        "美妆馆",
+        "BIT超市",
+        "生鲜",
+        "全球购",
+        "闪购",
+        "拍卖",
+        "金融"
+      ]
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -25,9 +33,8 @@ export default {};
   li {
     font-size: 18px;
     line-height: 64px;
-    // background:pink;
-    // margin-right:10px;
     margin-left: 30px;
+    cursor: pointer;
   }
   li:nth-child(1) {
     background: pink;

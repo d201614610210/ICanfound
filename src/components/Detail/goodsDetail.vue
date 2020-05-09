@@ -27,36 +27,29 @@
       <!-- <h3>ICanfound Shop</h3>
       <h4>The Best Thing For You</h4>-->
     </div>
-    <div class="second">
+    <!-- <div class="second">
       <div class="secondCont">
         <span v-for="item in navList" :key="item">{{item}}</span>
       </div>
-    </div>
+    </div>-->
     <div class="third">
       <div class="thirdCont">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item>首页</el-breadcrumb-item>
-          <el-breadcrumb-item>手机壳</el-breadcrumb-item>
-          <el-breadcrumb-item>手机保护套</el-breadcrumb-item>
-        </el-breadcrumb>
+        <router-link to="/" tag="span">首页</router-link>
+        <i>/</i>
+        <router-link to="/goodsList" tag="span">手机壳</router-link>
+        <i>/</i>
+        <span>手机保护套</span>
       </div>
     </div>
     <div class="detailCont">
       <!-- 图片展示区 -->
       <div class="show">
-        <img src="../../assets/img/goodsDetail/item-detail-1.jpg" alt />
+        <img :src="showUrl" alt />
         <ul>
-          <li>
-            <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt />
-          </li>
-          <li>
-            <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt />
-          </li>
-          <li>
-            <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt />
-          </li>
-          <li>
-            <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt />
+          <li v-for="(item,index) in showTipsUrl" :key="index">
+            <!-- {{item}} -->
+            <!-- <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt /> -->
+            <img :src="item" alt @mouseenter="changeShowUrl(index)" />
           </li>
         </ul>
       </div>
@@ -74,7 +67,7 @@
           <tr>
             <td>BIT价:</td>
             <td>
-              <i>￥28.00</i>
+              <i>￥{{(goodsInfo[checkedType].price).toFixed(2)}}</i>
             </td>
           </tr>
           <tr>
@@ -97,9 +90,14 @@
         <div class="color">
           <p>选择颜色</p>
           <ul>
-            <li v-for="item in 9" :key="item">
-              <img src="../../assets/img/goodsDetail/pack/1.jpg" alt />
-              <b>4.7英寸-深邃蓝</b>
+            <li
+              :class="{'activeType':checkedType===index}"
+              v-for="(item,index) in goodsInfo"
+              :key="index"
+              @click="choiceType(index)"
+            >
+              <img :src="item.imgUrl" alt />
+              <b>{{item.type}}</b>
             </li>
           </ul>
         </div>
@@ -107,18 +105,30 @@
         <div class="amortize">
           <p>白条分期</p>
           <ul>
-            <li>不分期</li>
-            <li>￥9.50×3期</li>
-            <li>￥4.75×6期</li>
-            <li>￥2.38×12期</li>
-            <li>￥1.19×24期</li>
+            <li :class="{'activeM':activeM===1}" @click="activeM=1">不分期</li>
+            <li
+              :class="{'activeM':activeM===2}"
+              @click="activeM=2"
+            >￥{{(goodsInfo[checkedType].price/3*buyNum).toFixed(2)}}×3期</li>
+            <li
+              :class="{'activeM':activeM===3}"
+              @click="activeM=3"
+            >￥{{(goodsInfo[checkedType].price/6*buyNum).toFixed(2)}}×6期</li>
+            <li
+              :class="{'activeM':activeM===4}"
+              @click="activeM=4"
+            >￥{{(goodsInfo[checkedType].price/12*buyNum).toFixed(2)}}×12期</li>
+            <li
+              :class="{'activeM':activeM===5}"
+              @click="activeM=5"
+            >￥{{(goodsInfo[checkedType].price/24*buyNum).toFixed(2)}}×24期</li>
           </ul>
         </div>
         <!-- 加入购物车 -->
         <div class="addCar">
-          <el-input-number v-model="num" @change="handleChange"></el-input-number>
-          <button>加入购物车</button>
-          <button>去购物车结算</button>
+          <el-input-number v-model="buyNum"></el-input-number>
+          <button @click="addToCar">加入购物车</button>
+          <router-link to="/order" tag="button">去购物车结算</router-link>
         </div>
       </div>
       <!-- 商品信息 -->
@@ -126,12 +136,11 @@
         <div class="hot">
           <header>店铺热销</header>
           <ul>
-            <li v-for="item in 6" :key="item">
-              <img src="../../assets/img/goodsDetail/hot/1.jpg" alt />
+            <li v-for="(item,index) in hotGoods" :key="index">
+              <img :src="item.imgUrl" alt />
               <p>
-                <i class="iconfont icon01"></i>
-                <b>热销165076</b>
-                <span>￥28.00</span>
+                <b>{{index+1}}、热销{{item.saleNum}}</b>
+                <span>￥{{item.price}}</span>
               </p>
             </li>
           </ul>
@@ -140,43 +149,167 @@
           <ul class="tabBar">
             <li
               :class="{active:index===active}"
-              v-for="(item,index) in 4"
+              v-for="(item,index) in introduceType"
               :key="index"
               @click="barClick(index)"
-            >商品介绍</li>
+            >{{item}}</li>
           </ul>
           <router-view />
         </div>
       </div>
-    </div>
-    <!-- 购物车图标 -->
-    <div class="iconCar">
-      <i class="iconfont iconche"></i>
     </div>
   </div>
 </template>
 
 <script>
 import Search from "../Search";
-// import GoodsImg from "./goodsImg"
+
 export default {
   data() {
     return {
+      // 小导航
       navList: ["首页", "iPhoneX", "iPhone8", "OnePlus", "坚果Pro", "Note8"],
-      num: 1,
-      active: 0
+      // 当前活跃商品详情索引
+      active: 0,
+      // show图片路径
+      showTipsUrl: [
+        require("../../assets/img/goodsDetail/item-detail-1.jpg"),
+        require("../../assets/img/goodsDetail/item-detail-2.jpg"),
+        require("../../assets/img/goodsDetail/item-detail-3.jpg"),
+        require("../../assets/img/goodsDetail/item-detail-4.jpg")
+      ],
+      // 当前展示的图片路径
+      showUrl: require("../../assets/img/goodsDetail/item-detail-2.jpg"),
+      // 当前选中的商品类型
+      checkedType: 0,
+      // 商品类型信息
+      goodsInfo: [
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/1.jpg"),
+          type: "4.7英寸-深邃蓝",
+          price: 28.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/2.jpg"),
+          type: "4.7英寸-星空黑",
+          price: 29.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/3.jpg"),
+          type: "5.5英寸-香槟金",
+          price: 28.5
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/4.jpg"),
+          type: "5.5英寸-玫瑰金",
+          price: 32.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/5.jpg"),
+          type: "5.5英寸-深邃蓝",
+          price: 32.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/6.jpg"),
+          type: "5.5英寸-星空黑",
+          price: 35.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/7.jpg"),
+          type: "4.7英寸-香槟金",
+          price: 26.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/8.jpg"),
+          type: "4.7英寸-玫瑰金",
+          price: 25.0
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/pack/9.jpg"),
+          type: "4.7英寸-中国红",
+          price: 28.0
+        }
+      ],
+      // 当前选中的分期选项
+      activeM: 1,
+      // 加购数量
+      buyNum: 1,
+      // 热销商品信息
+      hotGoods: [
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/1.jpg"),
+          saleNum: 753,
+          price: "28.00"
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/2.jpg"),
+          saleNum: 951,
+          price: "36.00"
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/3.jpg"),
+          saleNum: 684,
+          price: "34.00"
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/4.jpg"),
+          saleNum: 355,
+          price: "20.00"
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/5.jpg"),
+          saleNum: 476,
+          price: "21.00"
+        },
+        {
+          imgUrl: require("../../assets/img/goodsDetail/hot/6.jpg"),
+          saleNum: 812,
+          price: "25.00"
+        }
+      ],
+      // 介绍类型
+      introduceType: ["商品介绍", "规格参数", "售后保障", "商品评价"],
     };
   },
   components: {
-    Search
+    Search,
   },
   methods: {
-    handleChange(value) {
-      console.log(value);
-    },
+    // 详情展示切换
     barClick(index) {
       this.active = index;
-    }
+      this.sHeight = document.documentElement.clientHeight;
+      switch (index) {
+        case 0: {
+          this.$router.push("/goodsDetail/img");
+          break;
+        }
+        case 1: {
+          this.$router.push("/goodsDetail/param");
+          break;
+        }
+        case 2: {
+          this.$router.push("/goodsDetail/afterSale");
+          break;
+        }
+        case 3: {
+          this.$router.push("/goodsDetail/comment");
+          break;
+        }
+      }
+    },
+    // show展示的大图
+    changeShowUrl(index) {
+      this.showUrl = this.showTipsUrl[index];
+    },
+    // 当前选中的商品类型
+    choiceType(index) {
+      this.checkedType = index;
+    },
+    // 添加购物车
+    addToCar() {
+      this.$message.success("加入购物车成功");
+    },
   }
 };
 </script>
@@ -229,22 +362,23 @@ export default {
       }
     }
   }
-  .second {
-    width: 100%;
-    background: #333;
-    .secondCont {
-      width: 1200px;
-      height: 38px;
-      margin: 0 auto;
-      line-height: 38px;
-      span {
-        color: #fff;
-        font-weight: 900;
-        margin-right: 20px;
-        font-size: 12px;
-      }
-    }
-  }
+  // .second {
+  //   width: 100%;
+  //   background: #333;
+  //   .secondCont {
+  //     width: 1200px;
+  //     height: 38px;
+  //     margin: 0 auto;
+  //     line-height: 38px;
+  //     span {
+  //       color: #fff;
+  //       font-weight: 900;
+  //       margin-right: 20px;
+  //       font-size: 12px;
+  //       cursor: pointer;
+  //     }
+  //   }
+  // }
   .third {
     width: 100%;
     background: rgb(236, 235, 235);
@@ -252,6 +386,16 @@ export default {
       width: 1200px;
       height: 38px;
       margin: 0 auto;
+      line-height: 38px;
+      i {
+        padding: 0 15px;
+      }
+      span {
+        cursor: pointer;
+      }
+      span:hover {
+        color: rgb(57, 136, 189);
+      }
     }
   }
   .detailCont {
@@ -261,6 +405,9 @@ export default {
     .show {
       margin-right: 30px;
       float: left;
+      img {
+        cursor: pointer;
+      }
       > img {
         width: 350px;
         height: 350px;
@@ -274,6 +421,7 @@ export default {
         img {
           width: 68px;
           height: 68px;
+          box-shadow: 0 1px 3px 2px rgb(235, 232, 232);
         }
       }
     }
@@ -312,6 +460,7 @@ export default {
             i {
               color: #e4393c;
               font-size: 26px;
+              cursor: pointer;
             }
             span {
               padding: 3px;
@@ -320,6 +469,7 @@ export default {
               background: #ffdedf;
               margin-right: 5px;
               font-size: 12px;
+              cursor: pointer;
             }
           }
         }
@@ -340,6 +490,7 @@ export default {
             background: #f7f7f7;
             margin-right: 10px;
             margin-bottom: 10px;
+            cursor: pointer;
             img {
               vertical-align: middle;
               margin-right: 5px;
@@ -347,6 +498,12 @@ export default {
             b {
               font-size: 12px;
             }
+          }
+          li:hover {
+            border-color: red;
+          }
+          li.activeType {
+            border-color: red;
           }
         }
       }
@@ -365,6 +522,13 @@ export default {
           padding: 5px;
           border: 1px solid #ccc;
           font-size: 12px;
+          cursor: pointer;
+        }
+        li:hover {
+          border-color: red;
+        }
+        li.activeM {
+          border-color: red;
         }
       }
       .addCar {
@@ -396,11 +560,13 @@ export default {
           box-sizing: border-box;
         }
         ul {
+          padding-bottom: 10px;
           li {
             padding: 0 10px;
             margin-top: 15px;
             img {
               padding: 0 10px;
+              margin-bottom: 10px;
             }
             p {
               padding: 0 10px;
@@ -438,7 +604,6 @@ export default {
           li.active {
             background: #e4393c;
             color: #fff;
-            border-bottom: 3px solid yellow;
           }
         }
       }
@@ -450,15 +615,6 @@ export default {
       height: 0;
       visibility: hidden;
       clear: both;
-    }
-  }
-  .iconCar {
-    position: fixed;
-    right: 20px;
-    top: 70%;
-    i {
-      color:crimson;
-      font-size: 40px;
     }
   }
 

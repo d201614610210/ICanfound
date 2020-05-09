@@ -25,7 +25,7 @@
         </el-form-item>
         <!-- 收件地址 -->
         <el-form-item label="收件地址" :label-width="inputWidth">
-          <el-input v-model="form.add" autocomplete="off"></el-input>
+          <el-input v-model="form.address" autocomplete="off"></el-input>
         </el-form-item>
         <!-- 手机号码 -->
         <el-form-item label="手机号码" :label-width="inputWidth">
@@ -56,7 +56,7 @@ export default {
       form: {
         name: "",
         area: "",
-        add: "",
+        address: "",
         number: "",
         postalCode: ""
       },
