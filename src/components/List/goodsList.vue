@@ -30,36 +30,36 @@
           <b>广告</b>
         </header>
         <ul class="ad">
-          <li v-for="item in 5" :key="item">
-            <img src="../../assets/img/goodsList/item-as-img-1.jpg" alt />
-            <span>￥39.9</span>
-            <p>SKSK苹果7/7plus手机壳 iPhone 7 Plus保护套全包硬</p>
+          <li v-for="(item,index) in ad" :key="index">
+            <img :src="item.imgUrl" alt />
+            <span>￥{{item.price.toFixed(2)}}</span>
+            <p>{{item.intro}}</p>
             <p>
               已有
-              <span>3140</span>人评价
+              <span>{{item.remarks}}</span>人评价
             </p>
           </li>
         </ul>
       </div>
       <!-- 商品列表 -->
       <div class="list">
-        <header>
+        <!-- <header>
           <el-button v-for="(item,index) in sort" :key="index" @click="activeBtn(index)">
             {{item}}
             <i :class="index===active?'iconfont iconarrow-up-':'iconfont iconarrow-down-'"></i>
           </el-button>
-        </header>
+        </header> -->
         <ul class="listTips">
-          <router-link to="/goodsDetail" tag="li" v-for="item in 20" :key="item">
-            <img src="../../assets/img/goodsList/item-show-4.jpg" alt />
+          <router-link to="/goodsDetail" tag="li" v-for="(item,index) in goods" :key="index">
+            <img :src="item.imgUrl" alt />
             <div>
-              <span>￥29.9</span>
-              <p>慕臣 苹果6s手机壳全包防摔磨砂软保护套男女 适用于iPhone6splus</p>
+              <span>￥{{item.price.toFixed(2)}}</span>
+              <p>{{item.intro}}</p>
               <p class="comment">
                 已有
-                <span>6080</span>人评价
+                <span>{{item.remarks}}</span>人评价
               </p>
-              <b>歌乐力手配专营店</b>
+              <b>{{item.shopName}}</b>
             </div>
           </router-link>
         </ul>
@@ -72,82 +72,33 @@
 
 <script>
 import Search from "../Search";
-import GoodsNav from "./goodsNav.vue"
+import GoodsNav from "./goodsNav.vue";
+import { getListOption } from "../../assets/getData.js";
 export default {
   data() {
     return {
-      optionList: [
-        {
-          tagName: "品牌",
-          tags: [
-            "华为(HUAWEI)",
-            "三星(SAMSUNG)",
-            "MATE",
-            "摩斯维(msvii)",
-            "OPPO",
-            "莫凡(Mofi)",
-            "耐尔金(NILLKIN)",
-            "洛克(ROCK)",
-            "亿色(ESR)",
-            "Apple",
-            "优加"
-          ]
-        },
-        {
-          tagName: "手机配件",
-          tags: [
-            "手机保护套",
-            "苹果周边",
-            "手机贴膜",
-            "移动电源",
-            "创意配件",
-            "手机耳机",
-            "手机支架"
-          ]
-        },
-        {
-          tagName: "款式",
-          tags: [
-            "软壳",
-            "硬壳",
-            "翻盖式",
-            "边框",
-            "运动臂包",
-            "钱包式",
-            "定制",
-            "防水袋",
-            "布袋",
-            "其他"
-          ]
-        },
-        {
-          tagName: "材质",
-          tags: [
-            "塑料/PC",
-            "硅胶",
-            "金属",
-            "电镀",
-            "真皮",
-            "树脂",
-            "木质",
-            "镶钻",
-            "液态硅胶",
-            "TPU"
-          ]
-        }
-      ],
+      optionList: [],//品牌款式选项
       sort: ["综合", "评论数", "价格"],
-      active: 0
+      active: 0,
+      goods:[],//商品信息
+      ad:[],
     };
   },
   components: {
     Search,
-    GoodsNav,
+    GoodsNav
+  },
+  async mounted() {
+    var res = await getListOption();
+    this.optionList = res.data.optionList;
+    this.goods = res.data.goods;
+    this.ad=this.goods.slice(3,8)
+    console.log(this.ad)
   },
   methods: {
     activeBtn(index) {
       this.active = index;
-    },
+    }
   }
 };
 </script>
@@ -192,7 +143,7 @@ export default {
         span {
           color: #005aa0;
           margin-right: 15px;
-          cursor:pointer;
+          cursor: pointer;
         }
       }
       td:nth-child(1) {
@@ -221,6 +172,10 @@ export default {
       .ad {
         li {
           padding: 10px 15px;
+          img{
+            width:160px;
+            height:160px;
+          }
           > span {
             font-size: 18px;
             color: #a94442;
@@ -257,7 +212,8 @@ export default {
         li {
           width: 240px;
           padding: 10px;
-          margin: 15px 0;
+          // margin: 15px 0;
+          margin: 0 0 30px;
           box-sizing: border-box;
           div {
             text-align: left;

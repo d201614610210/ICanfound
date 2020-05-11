@@ -16,14 +16,18 @@
           </span>
           <!-- 二级列表 -->
           <transition name="el-fade-in">
-            <ul class="LeftListDetail" v-if="activeLi===indexs">
+            <ul class="LeftListDetail" v-show="activeLi===indexs">
               <router-link
                 to="/goodsList"
                 tag="li"
-                v-for="(items,indexs) in LeftListDetail"
+                v-for="(items,indexs) in indexs%2===0?LeftListDetail1:LeftListDetail2"
                 :key="indexs"
               >
-                <span v-for="(item,index) of items" :key="index">
+                <span>
+                  {{items.title}}
+                  <i>|</i>
+                </span>
+                <span v-for="(item,index) in items.tags" :key="index">
                   <b>{{item}}</b>
                   <i v-if="index!==items.length-1">|</i>
                 </span>
@@ -36,32 +40,24 @@
       <div class="rightShow">
         <!-- 小列表 -->
         <ul class="TopList">
-          <li v-for="item in TopList" :key="item">{{item}}</li>
+          <li v-for="(item,index) in TopList" :key="index">{{item}}</li>
         </ul>
-        <!-- banner区域 -->
+        <!-- 滚动图片区 -->
         <div class="scroll">
           <el-carousel trigger="click">
-            <el-carousel-item v-for="item in 5" :key="item">
-              <router-link
-                to="/goodsList"
-                tag="img"
-                :src="require('../../assets/img/nav/'+item+'.jpg')"
-                alt
-              ></router-link>
+            <el-carousel-item v-for="(item,index) in scrollImg" :key="index">
+              <router-link to="/goodsList" tag="img" :src="item" alt></router-link>
             </el-carousel-item>
           </el-carousel>
         </div>
+        <!-- 固定图片区 -->
         <div class="fixed">
           <router-link
             to="/goodsList"
             tag="img"
-            :src="require('../../assets/img/nav/nav_showimg1.jpg')"
-            alt
-          ></router-link>
-          <router-link
-            to="/goodsList"
-            tag="img"
-            :src="require('../../assets/img/nav/nav_showimg2.jpg')"
+            :src="item"
+            v-for="(item,index) in fixedImg"
+            :key="index"
             alt
           ></router-link>
         </div>
@@ -71,197 +67,27 @@
 </template>
 
 <script>
+import { getHomeBanner } from "../../assets/getData";
 export default {
   data() {
     return {
-      // 首页小导航
-      TopList: [
-        "秒杀",
-        "优惠券",
-        "闪购",
-        "拍卖",
-        "服装城",
-        "超市",
-        "生鲜",
-        "全球购",
-        "金融"
-      ],
-      // 首页左侧一级导航
-      LeftList: [
-        ["家用电器"],
-        ["手机", "运营商", "数码"],
-        ["电脑", "办公"],
-        ["家居", "家具", "家装", "厨具"],
-        ["男装", "女装", "童装", "内衣"],
-        ["美妆个护", "宠物"],
-        ["女鞋", "箱包", "钟表", "宝珠"],
-        ["男鞋", "运动", "户外"],
-        ["汽车", "汽车用品"],
-        ["母婴", "玩具乐器"],
-        ["食品", "酒类", "生鲜", "特产"],
-        ["礼品鲜花", "农资绿植"],
-        ["医药保健", "计生情趣"],
-        ["图书", "音像", "电子书"]
-      ],
-      // 首页左侧二级导航
-      LeftListDetail: [
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ],
-        [
-          "面部护肤",
-          "补水保湿",
-          "卸妆",
-          "面",
-          "爽肤水",
-          "乳液面霜",
-          "精华",
-          "眼霜",
-          "防晒",
-          "面膜",
-          "剃须",
-          "套装"
-        ]
-      ],
-      activeLi: -1
+      TopList: [], // 首页小导航
+      LeftList: [], // 首页左侧一级导航
+      LeftListDetail1: [], // 首页左侧二级导航1
+      LeftListDetail2: [], // 首页左侧二级导航2
+      scrollImg: [], // 滚动区图片
+      fixedImg: [], //固定图片
+      activeLi: -1 //当前划过的列表
     };
+  },
+  async mounted() {
+    var res = await getHomeBanner();
+    this.TopList = res.data.TopList;
+    this.LeftList = res.data.LeftList;
+    this.LeftListDetail1 = res.data.LeftListDetail1;
+    this.LeftListDetail2 = res.data.LeftListDetail2;
+    this.scrollImg = res.data.scrollImg;
+    this.fixedImg = res.data.fixedImg;
   },
   methods: {
     // 一级导航鼠标划入显示二级导航
@@ -271,7 +97,7 @@ export default {
     // 一级导航鼠标划出隐藏二级导航
     hideDetail() {
       this.activeLi = -1;
-    },
+    }
   }
 };
 </script>
@@ -294,7 +120,7 @@ export default {
       > li {
         padding: 5px 20px;
         color: #fff;
-        span b{
+        span b {
           cursor: pointer;
         }
         span b:hover {
@@ -307,7 +133,7 @@ export default {
       .LeftListDetail {
         position: absolute;
         top: 30px;
-        left: 195px;
+        left: 172px;
         z-index: 9;
         padding: 20px;
         background: #fff;

@@ -4,7 +4,7 @@
       <!-- 抢购区头部 -->
       <header>
         <div class="logo">
-          <img src="../../assets/img/index/clock.png" alt />
+          <img src="/img/index/clock.png" alt />
           <span>限时秒杀</span>
           <b>总有你想不到的低价</b>
         </div>
@@ -20,11 +20,17 @@
       </header>
       <!-- 抢购区列表 -->
       <div class="secKillShow">
-        <router-link to="/goodsList" tag="div" class="items" v-for="item in 5" :key="item">
-          <img src="../../assets/img/index/seckill/seckill-item1.jpg" alt />
-          <p>【赠小风扇】 维他 柠檬茶 250ml*32盒 礼品装 整箱</p>
-          <span>￥71.9</span>
-          <del>89.6</del>
+        <router-link
+          to="/goodsList"
+          tag="div"
+          class="items"
+          v-for="(item,index) in secKillGoodsList"
+          :key="index"
+        >
+          <img :src="item.img" alt />
+          <p>{{item.intro}}</p>
+          <span>￥{{item.price}}</span>
+          <del>{{item.realPrice}}</del>
         </router-link>
       </div>
     </div>
@@ -32,32 +38,39 @@
 </template>
 
 <script>
+import { getHomeSecondsKill } from "../../assets/getData";
 export default {
   data() {
     return {
-      hour: 1,
+      hour: 1, //倒计时
       minute: 59,
-      second: 59
+      second: 59,
+      secKillGoodsList: [] //抢购区商品信息
     };
   },
-  mounted() {
+  async mounted() {
+    // 秒杀倒计时
     var time = 59;
+    // var temp;
     var timeId = setInterval(() => {
-      // time<=10?time<=0?time=59:this.second='0'+time:this.second=time;
       if (time < 10) {
         if (time < 0) {
           time = 59;
           this.second = time;
           this.minute--;
         } else {
-          this.second = "0" + time;
+          // this.second = "0" + time;
         }
       } else {
         this.second = time;
       }
       time--;
     }, 1000);
-  },
+    // 获取秒杀区数据
+    var res = await getHomeSecondsKill();
+    this.secKillGoodsList = res.data;
+    console.log(res.data);
+  }
 };
 </script>
 
@@ -134,9 +147,8 @@ export default {
       display: flex;
       justify-content: space-evenly;
       .items {
-        // background:pink;
-        width: 180px;
-        padding: 15px;
+        width: 185px;
+        padding: 15px 10px;
         box-sizing: border-box;
         margin-top: 10px;
         box-shadow: 0 1px 1px 2px #ccc;

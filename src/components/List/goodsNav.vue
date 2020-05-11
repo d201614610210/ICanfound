@@ -1,6 +1,6 @@
 <template>
   <ul class="goodsNav">
-    <router-link to="/" tag="li" v-for="item in navList" :key="item">{{item}}</router-link>
+    <router-link to="/" tag="li" v-for="(item,index) in navList" :key="index">{{item}}</router-link>
   </ul>
 </template>
 
@@ -29,15 +29,17 @@ export default {
 .goodsNav {
   display: flex;
   padding-left: 130px;
-  border-bottom: 3px solid red;
+  border-bottom: 3px solid #B1191A;
   li {
     font-size: 18px;
     line-height: 64px;
     margin-left: 30px;
     cursor: pointer;
+    color:#B1191A;
   }
   li:nth-child(1) {
-    background: pink;
+    background: #B1191A;
+    color:#fff;
     padding: 0 38px;
   }
 }

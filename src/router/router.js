@@ -143,7 +143,7 @@ export default new Router({
     if (savedPosition) {
       return savedPosition
     } else {
-      if (to.path.split('/').length > 2) return;
+      // if (to.path.split('/').length > 2) return;
       return { x: 0, y: 0 }
     }
   }

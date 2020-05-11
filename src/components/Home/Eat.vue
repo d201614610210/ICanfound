@@ -1,36 +1,46 @@
 <template>
-  <div class="digital">
-    <div class="digitalCont">
+  <div class="eat">
+    <div class="eatCont">
       <!-- 标题 -->
       <header>
         <span>电脑数码</span>
-        <ul class="digitalTips">
-          <router-link to="/goodsList" tag="li" v-for="item in dataList" :key="item">{{item}}</router-link>
+        <ul class="eatLink">
+          <router-link to="/goodsList" tag="li" v-for="(item,index) in link" :key="index">{{item}}</router-link>
         </ul>
       </header>
       <!-- 展示区 -->
-      <div class="digitalShow">
+      <div class="eatShow">
         <!-- 左侧展区 -->
-        <div class="show" v-for="item in 2" :key="item">
+        <div class="show" v-for="(itemU,indexU) in unite" :key="indexU">
           <!-- 左--上 -->
           <div class="showTop">
             <!-- 左--左上 -->
             <router-link to="/goodsList" tag="aside">
-              <img src="../../assets/img/index/computer/item-computer-1.jpg" alt />
+              <img :src="itemU.bigImg" alt />
             </router-link>
             <!-- 左--右上 -->
             <ul class="showTips">
-              <router-link to="/goodsList" tag="li" v-for="item in 4" :key="item">
-                <img src="../../assets/img/index/computer/item-computer-1-3.jpg" alt />
-                <p>电脑馆</p>
-                <b>笔记本999元限量秒</b>
+              <router-link
+                to="/goodsList"
+                tag="li"
+                v-for="(item,index) in itemU.show4"
+                :key="index"
+              >
+                <img :src="item.imgUrl" alt />
+                <p>{{item.title}}</p>
+                <b>{{item.intro}}</b>
               </router-link>
             </ul>
           </div>
           <!-- 左--下 -->
           <ul class="showBottom">
-            <router-link to="/goodsList" tag="li" v-for="item in 3" :key="item">
-              <img src="../../assets/img/index/computer/item-computer-1-6.jpg" alt />
+            <router-link
+              to="/goodsList"
+              tag="li"
+              v-for="(item,index) in itemU.show3"
+              :key="index"
+            >
+              <img :src="item" alt />
             </router-link>
           </ul>
         </div>
@@ -40,44 +50,45 @@
 </template>
 
 <script>
+import { getHomeEat } from "../../assets/getData";
 export default {
   data() {
     return {
-      dataList: [
-        "电脑馆",
-        "游戏极品",
-        "装机大师",
-        "职场焕新",
-        "女神频道",
-        "虚拟现实",
-        "二合一平板",
-        "电子教育",
-        "万物周刊"
-      ]
+      link: [], //标题link
+      leftShow: {}, //左侧商品展示
+      rightShow: {}, //右侧商品展示
+      unite: [] //左右集合
     };
   },
+  async mounted() {
+    var res = await getHomeEat();
+    this.link = res.data.link;
+    this.leftShow = res.data.leftShow;
+    this.rightShow = res.data.rightShow;
+    this.unite.push(this.leftShow,this.rightShow);
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.digital {
+.eat {
   width: 100%;
   margin-top: 10px;
-  .digitalCont {
+  .eatCont {
     width: 1000px;
     margin: 0 auto;
     background: #fff;
     header {
       height: 50px;
       line-height: 50px;
-      background: #4488a7;
+      background: #ecb226;
       padding: 0 20px 0 15px;
       > span {
         font-weight: 900;
         font-size: 20px;
         color: #fff;
       }
-      .digitalTips {
+      .eatLink {
         transform: translateX(10px);
         float: right;
         display: flex;
@@ -91,15 +102,15 @@ export default {
           line-height: 30px;
           font-size: 12px;
           color: #fff;
-          background: #6da6be;
-          border: 1px solid #6da6be;
+          background: #eeb955;
+          border: 1px solid #eeb955;
         }
         li:hover {
           border: 1px solid #fff;
         }
       }
     }
-    .digitalShow {
+    .eatShow {
       display: flex;
       .show {
         width: 500px;

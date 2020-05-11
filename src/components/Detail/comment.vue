@@ -5,7 +5,7 @@
     <div class="chart">
       <el-progress type="circle" :percentage="90" color="red" :stroke-width="10"></el-progress>
       <ul class="button">
-        <li v-for="item in commentTag" :key="item">{{item}}</li>
+        <li v-for="(item,index) in commentTags" :key="index">{{item}}</li>
       </ul>
     </div>
     <!-- 评论分类 -->
@@ -16,22 +16,22 @@
       <span>差评(3)</span>
     </div>
     <!-- 评论条 -->
-    <div class="commentTips" v-for="item in 6" :key="item">
+    <div class="commentTips" v-for="(item,index) in goodsComment" :key="index">
       <!-- 评论者 -->
       <div class="user">
         <i class="iconfont iconuser"></i>
-        <b>p*****1</b>
+        <b>{{item.username}}</b>
       </div>
       <!-- 评论详情 -->
       <div class="commentDetail">
         <el-rate
-          v-model="score"
+          v-model="item.score"
           disabled
           :colors="['#E4393C', '#E4393C', '#FF9900']"
           score-template="{value}"
         ></el-rate>
-        <p>颜色很好看，质量也不错！，还送了个指环，想不到哦！</p>
-        <span>4.7英寸-深邃蓝</span>
+        <p>{{item.content}}</p>
+        <span>{{item.type}}</span>
       </div>
     </div>
     <!-- 分页器 -->
@@ -46,29 +46,20 @@
 </template>
 
 <script>
+import {getDetailIntro} from "../../assets/getData"
 export default {
   data() {
     return {
-      commentTag: [
-        "颜色可人",
-        "实惠优选",
-        "严丝合缝",
-        "极致轻薄",
-        "质量没话说",
-        "比定做还合适",
-        "完美品质",
-        "正品行货",
-        "包装有档次",
-        "不容易发热",
-        "已经买第二个",
-        "是全覆盖"
-      ],
-      score: 3.7
+      commentTags: [],//评论摘要
+      goodsComment:[],//商品评论
     };
   },
-  mounted() {
+  async mounted() {
     document.getElementsByClassName("el-progress__text")[0].innerText =
       "90%好评率";
+      var res=await getDetailIntro();
+      this.goodsComment=res.data.goodsComment;
+      this.commentTags=res.data.commentTags;
   },
   methods: {
     handleSizeChange(val) {
@@ -121,9 +112,9 @@ export default {
     padding: 10px;
     overflow: hidden;
     border-bottom: 1px solid #ccc;
+    display: flex;
     .user {
-      float: left;
-      padding-right: 80px;
+      width:150px;
       i {
         color: #999;
         font-size: 30px;
@@ -135,7 +126,7 @@ export default {
       }
     }
     .commentDetail {
-      float: left;
+      flex:1;
       p {
         margin-bottom: 20px;
         font-size: 14px;

@@ -1,0 +1,65 @@
+{
+  "link": [
+    "休闲零食", "坚果", "牛奶", "饮料冲调", "食用油", "大米", "白酒", "红酒", "烧烤食材", "牛排", "樱桃"
+  ],
+  "leftShow": {
+    "bigImg": "/img/index/eat/item-eat-big1.jpg",
+    "show4": [
+      {
+        "title": "粮油调味",
+        "intro": "买2免1",
+        "imgUrl": "/img/index/eat/item-eat-left41.jpg"
+      },
+      {
+        "title": "饮料冲调",
+        "intro": "第二件半价",
+        "imgUrl": "/img/index/eat/item-eat-left42.jpg"
+      },
+      {
+        "title": "休闲零食",
+        "intro": "满99减40",
+        "imgUrl": "/img/index/eat/item-eat-left43.jpg"
+      },
+      {
+        "title": "中外名酒",
+        "intro": "满199减100",
+        "imgUrl": "/img/index/eat/item-eat-left44.jpg"
+      }
+    ],
+    "show3": [
+      "/img/index/eat/item-eat-left31.jpg",
+      "/img/index/eat/item-eat-left32.jpg",
+      "/img/index/eat/item-eat-left33.jpg"
+    ]
+  },
+  "rightShow": {
+    "bigImg": "/img/index/eat/item-eat-big2.jpg",
+    "show4": [
+      {
+        "title": "东家菜",
+        "intro": "丰富好味",
+        "imgUrl": "/img/index/eat/item-eat-right41.jpg"
+      },
+      {
+        "title": "东家菜",
+        "intro": "丰富好味",
+        "imgUrl": "/img/index/eat/item-eat-right41.jpg"
+      },
+      {
+        "title": "东家菜",
+        "intro": "丰富好味",
+        "imgUrl": "/img/index/eat/item-eat-right41.jpg"
+      },
+      {
+        "title": "东家菜",
+        "intro": "丰富好味",
+        "imgUrl": "/img/index/eat/item-eat-right41.jpg"
+      }
+    ],
+    "show3": [
+      "/img/index/eat/item-eat-right31.jpg",
+      "/img/index/eat/item-eat-right32.jpg",
+      "/img/index/eat/item-eat-right33.jpg"
+    ]
+  }
+}

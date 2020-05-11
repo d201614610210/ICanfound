@@ -1,10 +1,14 @@
 <template>
   <div class="address">
-    <h2>我的购物车</h2>
+    <h2>我的收货地址</h2>
     <div class="content">
-      <el-card class="box-card">
+      <!-- 地址卡片 -->
+      <el-card class="box-card" v-for="(item,index) in address" :key="index">
+        <!-- 卡片头部 -->
         <div slot="header" class="clearfix">
-          <span>Daimj</span>
+          <!-- 姓名 -->
+          <span>{{item.name}}</span>
+          <!-- 删除/修改按钮 -->
           <el-button style="float: right; padding: 3px 0" type="text" @click="del">
             <i class="iconfont iconarrow_right_in"></i>
             删除
@@ -18,29 +22,34 @@
             修改
           </el-button>
         </div>
-        <!-- <div v-for="o in 4" :key="o" class="text item"><span>收货人:<b>Daimj</b></span></div> -->
         <div class="text item">
           <span>
             收货人:
-            <b>Daimj</b>
+            <b>{{item.name}}</b>
           </span>
         </div>
         <div class="text item">
           <span>
             收货地区:
-            <b>河北省邢台市</b>
+            <b>{{item.area}}</b>
           </span>
         </div>
         <div class="text item">
           <span>
             详细地址:
-            <b>沙河市西油村</b>
+            <b>{{item.detailArea}}</b>
+          </span>
+        </div>
+        <div class="text item">
+          <span>
+            手机号:
+            <b>{{item.phone}}</b>
           </span>
         </div>
         <div class="text item">
           <span>
             邮政编码:
-            <b>054100</b>
+            <b>{{item.postCode}}</b>
           </span>
         </div>
       </el-card>
@@ -89,6 +98,7 @@
 </template>
 
 <script>
+import {getUserInfo} from "../../assets/getData"
 export default {
   data() {
     return {
@@ -101,10 +111,16 @@ export default {
         number: "",
         postalCode: ""
       },
+      address:[],
       // 控制弹框宽度
       inputWidth: "120px",
       selectWidth: "50px"
     };
+  },
+  async mounted(){
+    var res=await getUserInfo("daimj");
+    this.address=res.data.address;
+    console.log(this.address)
   },
   methods: {
     // 删除收货地址

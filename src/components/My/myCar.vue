@@ -1,12 +1,12 @@
 <template>
   <div class="address">
     <h2>我的购物车</h2>
-    <div class="content">
+    <div class="content" >
       <!-- 购物车列表 -->
       <div class="carList">
         <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="car"
           tooltip-effect="dark"
           style="width: 100%"
           border
@@ -29,39 +29,19 @@
 </template>
 
 <script>
+import {getUserInfo} from "../../assets/getData"
 export default {
   data() {
     return {
       // 表格数据
-      tableData: [
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: "28.00",
-          date: "2020-05-09-01-34"
-        },
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: "28.00",
-          date: "2020-05-09-01-34"
-        },
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: "28.00",
-          date: "2020-05-09-01-34"
-        }
-      ],
+      car: [],//购物车数据
       // 表格选中
       multipleSelection: []
     };
+  },
+  async mounted(){
+    var res=await getUserInfo("daimj");
+    this.car=res.data.car;
   },
   methods: {
     //列表点击事件

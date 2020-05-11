@@ -1,27 +1,28 @@
 <template>
   <div class="param">
     <header>规格参数</header>
-    <table>
-      <tr v-for="item in 3" :key="item">
-        <td>
-          商品名称:
-          <span>iPhone7手机壳</span>
-        </td>
-        <td>
-          商品编号:
-          <span>10435663237</span>
-        </td>
-        <td>
-          店铺:
-          <span>ICanfound</span>
-        </td>
-      </tr>
-    </table>
+    <ul>
+      <li v-for="(item,index) in goodsParam" :key="index">
+        <span>{{item.title}}:</span>
+        <b>{{item.content}}</b>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-export default {};
+import {getDetailIntro} from "../../assets/getData.js"
+export default {
+  data(){
+    return {
+      goodsParam:[],
+    }
+  },
+  async mounted(){
+    var res=await getDetailIntro();
+    this.goodsParam=res.data.goodsParam;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -34,15 +35,18 @@ export default {};
     font-weight: 900;
     color: #666;
   }
-  table{
-    tr{
-      line-height:36px;
-      td{
-        width:300px;
-        padding-left:50px;
-        span{
-          color:#999;
-        }
+  ul{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    li{
+      width:240px;
+      height:36px;
+      font-size:14px;
+      padding:5px;
+      padding-left:30px;
+      b{
+        color:#999;
       }
     }
   }

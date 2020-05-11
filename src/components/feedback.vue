@@ -18,12 +18,17 @@
 </template>
 
 <script>
+// import change from "../lib/change"
+const s=require('../lib/change')
 export default {
   data() {
     return {
       feedTitle: "",
       feedInfo: ""
     };
+  },
+  mounted(){
+    s.a();
   },
   methods: {
     commit() {

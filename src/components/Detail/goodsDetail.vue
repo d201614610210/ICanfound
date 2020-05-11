@@ -29,7 +29,7 @@
     </div>
     <!-- <div class="second">
       <div class="secondCont">
-        <span v-for="item in navList" :key="item">{{item}}</span>
+        <span v-for="(item,index) in navList" :key="item">{{item}}</span>
       </div>
     </div>-->
     <div class="third">
@@ -44,12 +44,12 @@
     <div class="detailCont">
       <!-- 图片展示区 -->
       <div class="show">
-        <img :src="showUrl" alt />
+        <img :src="showBig" alt />
         <ul>
-          <li v-for="(item,index) in showTipsUrl" :key="index">
+          <li v-for="(item,index) in showSmall" :key="index">
             <!-- {{item}} -->
             <!-- <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt /> -->
-            <img :src="item" alt @mouseenter="changeShowUrl(index)" />
+            <img :src="item" alt @mouseenter="changeShowBig(index)" />
           </li>
         </ul>
       </div>
@@ -67,7 +67,7 @@
           <tr>
             <td>BIT价:</td>
             <td>
-              <i>￥{{(goodsInfo[checkedType].price).toFixed(2)}}</i>
+              <i v-if="goodsType.length!==0">￥{{bitPrice}}</i>
             </td>
           </tr>
           <tr>
@@ -92,7 +92,7 @@
           <ul>
             <li
               :class="{'activeType':checkedType===index}"
-              v-for="(item,index) in goodsInfo"
+              v-for="(item,index) in goodsType"
               :key="index"
               @click="choiceType(index)"
             >
@@ -105,23 +105,27 @@
         <div class="amortize">
           <p>白条分期</p>
           <ul>
-            <li :class="{'activeM':activeM===1}" @click="activeM=1">不分期</li>
+            <li :class="{'activeM':activeM===1}" @click="activeM=1" v-if="goodsType.length!==0">不分期</li>
             <li
               :class="{'activeM':activeM===2}"
               @click="activeM=2"
-            >￥{{(goodsInfo[checkedType].price/3*buyNum).toFixed(2)}}×3期</li>
+              v-if="goodsType.length!==0"
+            >￥{{amortize3}}×3期</li>
             <li
               :class="{'activeM':activeM===3}"
               @click="activeM=3"
-            >￥{{(goodsInfo[checkedType].price/6*buyNum).toFixed(2)}}×6期</li>
+              v-if="goodsType.length!==0"
+            >￥{{amortize6}}×6期</li>
             <li
               :class="{'activeM':activeM===4}"
               @click="activeM=4"
-            >￥{{(goodsInfo[checkedType].price/12*buyNum).toFixed(2)}}×12期</li>
+              v-if="goodsType.length!==0"
+            >￥{{amortize12}}×12期</li>
             <li
               :class="{'activeM':activeM===5}"
               @click="activeM=5"
-            >￥{{(goodsInfo[checkedType].price/24*buyNum).toFixed(2)}}×24期</li>
+              v-if="goodsType.length!==0"
+            >￥{{amortize24}}×24期</li>
           </ul>
         </div>
         <!-- 加入购物车 -->
@@ -136,11 +140,11 @@
         <div class="hot">
           <header>店铺热销</header>
           <ul>
-            <li v-for="(item,index) in hotGoods" :key="index">
+            <li v-for="(item,index) in goodsHot" :key="index">
               <img :src="item.imgUrl" alt />
               <p>
-                <b>{{index+1}}、热销{{item.saleNum}}</b>
-                <span>￥{{item.price}}</span>
+                <b>{{index+1}}、热销{{item.sale}}</b>
+                <span>￥{{item.price.toFixed(2)}}</span>
               </p>
             </li>
           </ul>
@@ -154,7 +158,11 @@
               @click="barClick(index)"
             >{{item}}</li>
           </ul>
-          <router-view />
+          <!-- <router-view /> -->
+          <Img v-show="showType==='img'" @click="barClick(0)" />
+          <Param v-show="showType==='param'" @click="barClick(1)" />
+          <AfterSale v-show="showType==='aftersale'" @click="barClick(2)" />
+          <Comment v-show="showType==='comment'" @click="barClick(3)" />
         </div>
       </div>
     </div>
@@ -163,144 +171,111 @@
 
 <script>
 import Search from "../Search";
+import Img from "./goodsImg";
+import Param from "./Param";
+import AfterSale from "./afterSale";
+import Comment from "./comment";
+import { getDetail } from "../../assets/getData";
 
 export default {
   data() {
     return {
       // 小导航
-      navList: ["首页", "iPhoneX", "iPhone8", "OnePlus", "坚果Pro", "Note8"],
+      // navList: ["首页", "iPhoneX", "iPhone8", "OnePlus", "坚果Pro", "Note8"],
       // 当前活跃商品详情索引
       active: 0,
-      // show图片路径
-      showTipsUrl: [
-        require("../../assets/img/goodsDetail/item-detail-1.jpg"),
-        require("../../assets/img/goodsDetail/item-detail-2.jpg"),
-        require("../../assets/img/goodsDetail/item-detail-3.jpg"),
-        require("../../assets/img/goodsDetail/item-detail-4.jpg")
-      ],
+      // showSmall图片路径
+      showSmall: [],
       // 当前展示的图片路径
-      showUrl: require("../../assets/img/goodsDetail/item-detail-2.jpg"),
+      showBig: "",
       // 当前选中的商品类型
-      checkedType: 0,
+      checkedType: 1,
       // 商品类型信息
-      goodsInfo: [
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/1.jpg"),
-          type: "4.7英寸-深邃蓝",
-          price: 28.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/2.jpg"),
-          type: "4.7英寸-星空黑",
-          price: 29.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/3.jpg"),
-          type: "5.5英寸-香槟金",
-          price: 28.5
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/4.jpg"),
-          type: "5.5英寸-玫瑰金",
-          price: 32.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/5.jpg"),
-          type: "5.5英寸-深邃蓝",
-          price: 32.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/6.jpg"),
-          type: "5.5英寸-星空黑",
-          price: 35.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/7.jpg"),
-          type: "4.7英寸-香槟金",
-          price: 26.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/8.jpg"),
-          type: "4.7英寸-玫瑰金",
-          price: 25.0
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/pack/9.jpg"),
-          type: "4.7英寸-中国红",
-          price: 28.0
-        }
-      ],
+      goodsType: [],
       // 当前选中的分期选项
       activeM: 1,
       // 加购数量
       buyNum: 1,
       // 热销商品信息
-      hotGoods: [
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/1.jpg"),
-          saleNum: 753,
-          price: "28.00"
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/2.jpg"),
-          saleNum: 951,
-          price: "36.00"
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/3.jpg"),
-          saleNum: 684,
-          price: "34.00"
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/4.jpg"),
-          saleNum: 355,
-          price: "20.00"
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/5.jpg"),
-          saleNum: 476,
-          price: "21.00"
-        },
-        {
-          imgUrl: require("../../assets/img/goodsDetail/hot/6.jpg"),
-          saleNum: 812,
-          price: "25.00"
-        }
-      ],
+      goodsHot: [],
       // 介绍类型
       introduceType: ["商品介绍", "规格参数", "售后保障", "商品评价"],
+      showType: "img"
     };
   },
   components: {
     Search,
+    Img,
+    Param,
+    AfterSale,
+    Comment
+  },
+  async beforeCreate() {
+    var res = await getDetail();
+    this.showBig = res.data.showBig;
+    this.showSmall = res.data.showSmall;
+    this.goodsType = res.data.goodsType;
+    this.goodsHot = res.data.goodsHot;
+  },
+  computed: {
+    amortize3() {
+      return (
+        (this.goodsType[this.checkedType].price / 3) *
+        this.buyNum
+      ).toFixed(2);
+    },
+    amortize6() {
+      return (
+        (this.goodsType[this.checkedType].price / 6) *
+        this.buyNum
+      ).toFixed(2);
+    },
+    amortize12() {
+      return (
+        (this.goodsType[this.checkedType].price / 12) *
+        this.buyNum
+      ).toFixed(2);
+    },
+    amortize24() {
+      return (
+        (this.goodsType[this.checkedType].price / 24) *
+        this.buyNum
+      ).toFixed(2);
+    },
+    bitPrice() {
+      return this.goodsType[this.checkedType].price.toFixed(2);
+    }
   },
   methods: {
     // 详情展示切换
     barClick(index) {
       this.active = index;
-      this.sHeight = document.documentElement.clientHeight;
       switch (index) {
         case 0: {
-          this.$router.push("/goodsDetail/img");
+          this.showType = "img";
+          // this.$router.push("/goodsDetail/img");
           break;
         }
         case 1: {
-          this.$router.push("/goodsDetail/param");
+          this.showType = "param";
+          // this.$router.push("/goodsDetail/param");
           break;
         }
         case 2: {
-          this.$router.push("/goodsDetail/afterSale");
+          this.showType = "aftersale";
+          // this.$router.push("/goodsDetail/afterSale");
           break;
         }
         case 3: {
-          this.$router.push("/goodsDetail/comment");
+          this.showType = "comment";
+          // this.$router.push("/goodsDetail/comment");
           break;
         }
       }
     },
     // show展示的大图
-    changeShowUrl(index) {
-      this.showUrl = this.showTipsUrl[index];
+    changeShowBig(index) {
+      this.showBig = this.showSmall[index];
     },
     // 当前选中的商品类型
     choiceType(index) {
@@ -309,7 +284,7 @@ export default {
     // 添加购物车
     addToCar() {
       this.$message.success("加入购物车成功");
-    },
+    }
   }
 };
 </script>

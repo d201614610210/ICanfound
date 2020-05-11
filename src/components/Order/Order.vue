@@ -11,11 +11,11 @@
         <span>小提示</span>
         <p>请点击商品前的选择框，选择购物车中的商品，点击付款即可。</p>
       </div>
-      <!-- 购物车 -->
+      <!-- 订单 -->
       <div class="orderList">
         <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="order"
           tooltip-effect="dark"
           style="width: 100%"
           border
@@ -48,14 +48,14 @@
             <el-radio
               v-model="radio"
               :label="index"
-              v-for="(item,index) in addressData"
+              v-for="(item,index) in address"
               :key="index"
               @change="choiceAddress"
             >
               <span>{{item.name}}</span>
-              <span>{{item.province+item.city+item.country}}</span>
+              <span>{{item.area+item.detailArea}}</span>
               <span>{{item.phone}}</span>
-              <span>{{item.postalCode}}</span>
+              <span>{{item.postCode}}</span>
             </el-radio>
           </el-collapse-item>
         </el-collapse>
@@ -71,7 +71,7 @@
           提交订单应付总额：
           <span>￥{{allCost.toFixed(2)}}</span>
         </p>
-        <router-link to='/pay' tag='el-button'>支付订单</router-link>
+        <router-link to="/pay" tag="el-button">支付订单</router-link>
       </div>
     </div>
   </div>
@@ -80,55 +80,14 @@
 <script>
 import Search from "../Search";
 import GoodsNav from "../List/goodsNav";
+import { getUserInfo } from "../../assets/getData";
 export default {
   data() {
     return {
       // 表格数据
-      tableData: [
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: 28,
-          date: "2020-05-09-01-34"
-        },
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: 28,
-          date: "2020-05-09-01-34"
-        },
-        {
-          num: "202005090134",
-          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
-          type: "4.7英寸-深邃蓝",
-          amount: "1",
-          price: 28,
-          date: "2020-05-09-01-34"
-        }
-      ],
+      order: [], //订单数据
       // 地址信息
-      addressData: [
-        {
-          name: "Daimj",
-          province: "河北省",
-          city: "邢台市",
-          country: "十里亭镇西油村",
-          phone: "13229079796",
-          postalCode: "054100"
-        },
-        {
-          name: "Daimj",
-          province: "河北省",
-          city: "邢台市",
-          country: "十里亭镇西油村",
-          phone: "13229079796",
-          postalCode: "054100"
-        }
-      ],
+      address: [], //地址信息
       // 单选框识别
       radio: "1",
       // 选中的收件人
@@ -145,6 +104,11 @@ export default {
     Search,
     GoodsNav
   },
+  async mounted() {
+    var res = await getUserInfo("daimj");
+    this.order = res.data.order;
+    this.address = res.data.address;
+  },
   methods: {
     //购物车列表勾选
     handleSelectionChange(val) {
@@ -157,11 +121,8 @@ export default {
     // 地址选择事件
     choiceAddress(val) {
       // 参数是选项的索引
-      this.checkedName = this.addressData[val].name;
-      this.checkedAddr =
-        this.addressData[val].province +
-        this.addressData[val].city +
-        this.addressData[val].country;
+      this.checkedName = this.address[val].name;
+      this.checkedAddr = this.address[val].area + this.address[val].detailArea;
     }
   }
 };

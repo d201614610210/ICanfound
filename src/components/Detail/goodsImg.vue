@@ -3,20 +3,23 @@
     <header>商品介绍</header>
     <ul>
       <li>
-        <img :src="require('../../assets/img/goodsDetail/intro/'+index+'.jpg')" alt="" v-for="index in 5" :key="index">
+        <img :src="item" alt="" v-for="(item,index) in goodsImg" :key="index">
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import {getDetailIntro} from "../../assets/getData"
 export default {
   data(){
     return{
-      imgData:[
-        "require('')"
-      ]
+      goodsImg:[],//获取图片介绍
     }
+  },
+  async mounted(){
+    var res=await getDetailIntro();
+    this.goodsImg=res.data.goodsImg;
   }
 };
 </script>
