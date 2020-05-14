@@ -16,19 +16,42 @@
     </div>
   </div>
 </template>
-
 <script>
-// import change from "../lib/change"
-const s=require('../lib/change')
+import {
+  test,
+  sendLogin,
+  changeAddress,
+  addAddress,
+  delAddress,
+  addCar,
+  delCar
+} from "../assets/getData";
 export default {
   data() {
     return {
       feedTitle: "",
-      feedInfo: ""
+      feedInfo: "",
+      testaddr: {
+        name: "mmm",
+        area: "河北省邢台市沙河市",
+        detailArea: "十里亭镇西油村",
+        phone: "13222222222",
+        postCode: "054100"
+      },
+      testGoods: {
+        num: "202005090134",
+        title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
+        type: "4.7英寸-深邃蓝",
+        amount: "3",
+        price: 28,
+        date: "2020-05-09-01-34"
+      }
     };
   },
-  mounted(){
-    s.a();
+  mounted() {
+    // var res=delAddress("daimj",1)
+    // var res = addCar("daimj", this.testGoods);
+    var res = delCar("daimj", 0);
   },
   methods: {
     commit() {
@@ -54,7 +77,7 @@ export default {
     width: 1200px;
     height: 600px;
     margin: 0 auto;
-    background: url("../assets/img/freeback.png") no-repeat 110px 130px;
+    background: url("/img/freeback.png") no-repeat 110px 130px;
     background-size: 500px;
     .feedBox {
       width: 420px;

@@ -1,7 +1,7 @@
 <template>
-  <div class="address">
+  <div class="car">
     <h2>我的购物车</h2>
-    <div class="content" >
+    <div class="content">
       <!-- 购物车列表 -->
       <div class="carList">
         <el-table
@@ -11,10 +11,13 @@
           style="width: 100%"
           border
           @selection-change="handleSelectionChange"
+          max-height="500"
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="图片" width="80" align="center">
-            <img src="../../assets/img/goodsDetail/pack/1.jpg" alt />
+            <template scope="scope">
+              <img :src="scope.row.imgUrl" width="40" height="40" class="head_pic" />
+            </template>
           </el-table-column>
           <el-table-column prop="title" label="标题" align="center"></el-table-column>
           <el-table-column prop="type" label="套餐" width="150" show-overflow-tooltip align="center"></el-table-column>
@@ -23,30 +26,51 @@
         </el-table>
       </div>
       <!-- 付款按钮 -->
-      <el-button type="primary">去付款</el-button>
+      <el-button @click="clearCar">从购物车删除</el-button>
+      <router-link to="/order" tag="el-button">去付款</router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {getUserInfo} from "../../assets/getData"
+import { getUserInfo, clearCar } from "../../assets/getData";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       // 表格数据
-      car: [],//购物车数据
+      car: [], //购物车数据
       // 表格选中
       multipleSelection: []
     };
   },
-  async mounted(){
-    var res=await getUserInfo("daimj");
-    this.car=res.data.car;
+  computed: {
+    ...mapGetters(["owner"])
+  },
+  async mounted() {
+    var res = await getUserInfo(this.owner);
+    this.car = res.data.car;
   },
   methods: {
     //列表点击事件
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      console.log(this.multipleSelection);
+    },
+    // 从购物车中删除
+    clearCar() {
+      if (this.multipleSelection.length <= 0) {
+        this.$message({
+          type: "error",
+          message: "请选择要删除的商品"
+        });
+        return;
+      }
+      var nums = [];
+      this.multipleSelection.forEach(element => {
+        nums.push(element.num);
+      });
+      var res = clearCar(this.owner, nums);
     }
   }
 };
@@ -54,7 +78,7 @@ export default {
 
 
 <style lang="scss" scoped>
-.address {
+.car {
   flex: 1;
   height: 100%;
   display: flex;
@@ -69,9 +93,9 @@ export default {
     height: 100%;
     border: 15px solid #f5f7f9;
     padding: 25px;
-    .el-button--primary{
-      float:right;
-      margin:20px 10px 0 0;
+    button {
+      float: right;
+      margin: 20px 10px 0 0;
     }
   }
 }

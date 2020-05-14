@@ -6,9 +6,9 @@
         <span>扫码支付</span>
         <p>请扫描右边二维码进行支付</p>
       </div>
-      <img src="../../assets/img/pay/pay-demo.png" alt />
+      <img src="/img/pay/pay-demo.png" alt />
       <div class="payCode">
-        <img src="../../assets/img/pay/pay-qrscan.png" alt />
+        <img src="/img/pay/pay-qrscan.png" alt />
         <router-link to="/paydone" tag="p">点击我，完成支付</router-link>
       </div>
     </div>

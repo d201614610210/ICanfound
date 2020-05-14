@@ -109,7 +109,7 @@ export default {
         height: 43px;
         line-height: 43px;
         padding-left: 45px;
-        background: url("../../assets/img/footer/ico_service.png") no-repeat;
+        background: url("/img/footer/ico_service.png") no-repeat;
         span {
           color: #000;
           font-size: 20px;

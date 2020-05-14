@@ -48,7 +48,7 @@ export default {
           break;
         }
         case 1: {
-          var step2 = this.$refs.account.submitForm();
+          var step2 = this.$refs.account.submit();
           if (!step2) {
             this.$message.error("请填写正确信息");
           } else {
@@ -58,7 +58,6 @@ export default {
           break;
         }
         case 2: {
-          console.log(123)
           this.$router.push("/login");
           break;
         }
@@ -72,7 +71,7 @@ export default {
 .regist {
   width: 100%;
   height: 600px;
-  background: url("../../assets/img/signup-sale.png") no-repeat 230px 50px;
+  background: url("/img/signup-sale.png") no-repeat 230px 50px;
   background-size: 428px 494px;
   position: relative;
   /* background:pink; */

@@ -1,9 +1,9 @@
 <template>
-  <div class="payDone">
+  <router-link to="/" tag="div" class="payDone">
     <div class="payDoneCont">
-      <img src="../../assets/img/pay-success.png" alt="">
+      <img src="/img/pay-success.png" alt="">
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

@@ -19,8 +19,30 @@
           <router-link to="/" tag="li">商城首页</router-link>
           <span style="padding:0 5px;">|</span>
         </ul>
-        <!-- 登陆之前 -->
-        <ul class="unLogin" v-if="false">
+        <!-- 已登录 -->
+        <div class="user" v-if="owner">
+          <!-- 用户登录后的下拉菜单 -->
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              <span>{{owner}}</span>
+              <i class="iconfont iconuser"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <i class="iconfont iconhome_n"></i>
+                <router-link to="/my" tag="span">我的主页</router-link>
+                <!-- <span>我的主页</span> -->
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <i class="iconfont iconhome_n"></i>
+                <span @click="quit">退出登录</span>
+                <!-- <router-link to="/login" tag="span" @click="quit">退出登录</router-link> -->
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <!-- 未登录 -->
+        <ul class="unLogin" v-else>
           <li>
             <span>您好，请</span>
             <router-link to="/login" tag="span" class="loginBtn">
@@ -36,27 +58,6 @@
             </router-link>
           </li>
         </ul>
-        <!-- 登陆之后 -->
-        <div class="user" v-else>
-          <!-- 用户登录后的下拉菜单 -->
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              <span>{{userName}}</span>
-              <i class="iconfont iconuser"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <i class="iconfont iconhome_n"></i>
-                <router-link to="/my" tag="span">我的主页</router-link>
-                <!-- <span>我的主页</span> -->
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <i class="iconfont iconhome_n"></i>
-                <router-link to="/login" tag="span" @click="quit">退出登录</router-link>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
       </div>
     </div>
   </div>
@@ -64,16 +65,21 @@
 
 <script>
 import getCurrentCityName from "../../lib/getPosition";
-
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      cityName: "",
-      userName: "Daimj"
+      cityName: ""
     };
   },
+  computed: {
+    ...mapGetters(["owner"])
+  },
   mounted() {
+    // 获取当前定位城市
     this.getCurrentCity();
+    // 获取cookie判断是否登陆过
+    this.getCookie();
   },
   methods: {
     // 获取当前城市名
@@ -84,7 +90,27 @@ export default {
     },
     // 退出登录
     quit() {
-      console.log("你退出了");
+      this.$store.commit("setOwner", undefined);
+      // 清除cookie
+      this.clearCookie();
+      this.$router.push("/login");
+    },
+    // 获取cookie
+    getCookie() {
+      var name = "username" + "=";
+      var ca = document.cookie.split(";");
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) {
+          this.$store.commit("setOwner", c.substring(name.length, c.length));
+        }
+      }
+    },
+    // 清除cookie
+    clearCookie() {
+      var time = new Date();
+      time.setTime(time.getTime() - 1000 * 60 * 60 * 8 + 1000 * -10);
+      document.cookie = `username=111;expires=${time}`;
     }
   }
 };

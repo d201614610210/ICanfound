@@ -6,15 +6,15 @@
       <div class="firstCont">
         <ul>
           <li>
-            <img src="../../assets/img/goodsList/item-show-1.jpg" alt />
+            <img src="img/goodsList/item-show-1.jpg" alt />
             <b>全身磨砂防指纹</b>
           </li>
           <li>
-            <img src="../../assets/img/goodsList/item-show-1.jpg" alt />
+            <img src="img/goodsList/item-show-2.jpg" alt />
             <b>全身磨砂防指纹</b>
           </li>
           <li>
-            <img src="../../assets/img/goodsList/item-show-1.jpg" alt />
+            <img src="img/goodsList/item-show-3.jpg" alt />
             <b>全身磨砂防指纹</b>
           </li>
         </ul>
@@ -48,7 +48,7 @@
         <ul>
           <li v-for="(item,index) in showSmall" :key="index">
             <!-- {{item}} -->
-            <!-- <img src="../../assets/img/goodsDetail/item-detail-2.jpg" alt /> -->
+            <!-- <img src="/img/goodsDetail/item-detail-2.jpg" alt /> -->
             <img :src="item" alt @mouseenter="changeShowBig(index)" />
           </li>
         </ul>
@@ -132,7 +132,7 @@
         <div class="addCar">
           <el-input-number v-model="buyNum"></el-input-number>
           <button @click="addToCar">加入购物车</button>
-          <router-link to="/order" tag="button">去购物车结算</router-link>
+          <button @click="toOrder">去购物车结算</button>
         </div>
       </div>
       <!-- 商品信息 -->
@@ -175,32 +175,23 @@ import Img from "./goodsImg";
 import Param from "./Param";
 import AfterSale from "./afterSale";
 import Comment from "./comment";
-import { getDetail } from "../../assets/getData";
+import { getDetailType, addCar } from "../../assets/getData";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      // 小导航
-      // navList: ["首页", "iPhoneX", "iPhone8", "OnePlus", "坚果Pro", "Note8"],
-      // 当前活跃商品详情索引
-      active: 0,
-      // showSmall图片路径
-      showSmall: [],
-      // 当前展示的图片路径
-      showBig: "",
-      // 当前选中的商品类型
-      checkedType: 1,
-      // 商品类型信息
-      goodsType: [],
-      // 当前选中的分期选项
-      activeM: 1,
-      // 加购数量
-      buyNum: 1,
-      // 热销商品信息
-      goodsHot: [],
-      // 介绍类型
-      introduceType: ["商品介绍", "规格参数", "售后保障", "商品评价"],
-      showType: "img"
+      // navList: ["首页", "iPhoneX", "iPhone8", "OnePlus", "坚果Pro", "Note8"],// 小导航
+      active: 0, // 当前活跃商品详情索引
+      showSmall: [], // showSmall图片路径
+      showBig: "", // 当前展示的图片路径
+      checkedType: 0, // 当前选中的商品类型
+      goodsType: [], // 商品类型信息
+      activeM: 1, // 当前选中的分期选项
+      buyNum: 1, // 加购数量
+      goodsHot: [], // 热销商品信息
+      introduceType: ["商品介绍", "规格参数", "售后保障", "商品评价"], // 介绍类型
+      showType: "img" //详情展示模块
     };
   },
   components: {
@@ -210,14 +201,15 @@ export default {
     AfterSale,
     Comment
   },
-  async beforeCreate() {
-    var res = await getDetail();
+  async mounted() {
+    var res = await getDetailType();
     this.showBig = res.data.showBig;
     this.showSmall = res.data.showSmall;
     this.goodsType = res.data.goodsType;
     this.goodsHot = res.data.goodsHot;
   },
   computed: {
+    ...mapGetters(["owner"]),
     amortize3() {
       return (
         (this.goodsType[this.checkedType].price / 3) *
@@ -283,7 +275,54 @@ export default {
     },
     // 添加购物车
     addToCar() {
-      this.$message.success("加入购物车成功");
+      if (this.owner) {
+        const goodsDetail = {
+          num: Math.floor(Math.random() * 10000000000 + 9999999),
+          imgUrl:this.goodsType[this.checkedType].imgUrl,
+          title: "苹果8/7手机壳iPhone7 Plus保护壳全包防摔磨砂硬外壳",
+          type: this.goodsType[this.checkedType].type,
+          amount: this.buyNum,
+          price: 28 * this.buyNum,
+          date: this.getDate()
+        };
+        var res=addCar(this.owner, goodsDetail);
+        this.$message.success("加入购物车成功");
+      } else {
+        this.open();
+      }
+    },
+    // 去购物车结算
+    toOrder() {
+      if (this.owner) {
+        this.$router.push("/order");
+      } else {
+        this.open();
+      }
+    },
+    // 弹框提示
+    open() {
+      this.$confirm("请先登录", "提示", {
+        confirmButtonText: "去登录",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$router.push("/login");
+      });
+    },
+    // 获取当前时间
+    getDate() {
+      var date = new Date();
+      var value =
+        date.getFullYear() +
+        "-" +
+        (date.getMonth() + 1) +
+        "-" +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes();
+      return value;
     }
   }
 };

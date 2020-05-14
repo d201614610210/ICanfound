@@ -1,5 +1,8 @@
 export default {
-  setActiveStep(state,data) {
-      state.activeStep = data
+  setOwner(state,data) {
+      state.owner = data
+  },
+  setShowFooter(state,data) {
+      state.showFooter = data
   },
 }

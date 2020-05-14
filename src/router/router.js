@@ -95,58 +95,58 @@ export default new Router({
       name: 'Regist',
       component: Regist,
     },
-    // 登录页
-    {
-      path: '/login', // 登录页
-      name: 'Login',
-      component: Login
-    },
-    // 用户页
-    {
-      path: '/my',
-      redirect: '/my/myorder',
-      name: 'My',
-      component: My,
-      children: [
-        {
-          path: 'address',
-          name: "Address",
-          component: Address,
-        },
-        {
-          path: 'addaddress',
-          name: "AddAddress",
-          component: AddAddress,
-        },
-        {
-          path: 'myorder',
-          name: "MyOrder",
-          component: MyOrder,
-        },
-        {
-          path: 'mycar',
-          name: "MyCar",
-          component: MyCar,
-        },
-      ]
-    },
-    // 意见反馈
-    {
-      path: '/feedback',
-      name: 'Feedback',
-      component: Feedback
-    },
+  // 登录页
+  {
+    path: '/login', // 登录页
+    name: 'Login',
+    component: Login
+  },
+  // 用户页
+  {
+    path: '/my',
+    redirect: '/my/myorder',
+    name: 'My',
+    component: My,
+    children: [
+      {
+        path: 'address',
+        name: "Address",
+        component: Address,
+      },
+      {
+        path: 'addaddress',
+        name: "AddAddress",
+        component: AddAddress,
+      },
+      {
+        path: 'myorder',
+        name: "MyOrder",
+        component: MyOrder,
+      },
+      {
+        path: 'mycar',
+        name: "MyCar",
+        component: MyCar,
+      },
+    ]
+  },
+  // 意见反馈
+  {
+    path: '/feedback',
+    name: 'Feedback',
+    component: Feedback
+  },
   ],
   // 设置跳转之后自动回到顶部
   scrollBehavior(to, from, savedPosition) {
-    // 回退时退到原先位置
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      // if (to.path.split('/').length > 2) return;
-      return { x: 0, y: 0 }
-    }
+  // 回退时退到原先位置
+  if(savedPosition) {
+    return savedPosition
+  } else {
+    // if (to.path.split('/').length > 2) return;
+    return { x: 0, y: 0 }
   }
+}
 })
 
 

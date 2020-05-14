@@ -1,3 +1,4 @@
 export default {
-  activeStep: state => state.activeStep,
+  owner: state => state.owner,
+  showFooter: state => state.showFooter,
 }

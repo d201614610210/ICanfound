@@ -15,7 +15,7 @@
       <div class="orderList">
         <el-table
           ref="multipleTable"
-          :data="order"
+          :data="car"
           tooltip-effect="dark"
           style="width: 100%"
           border
@@ -23,7 +23,9 @@
         >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column label="图片" width="80" align="center">
-            <img src="../../assets/img/goodsDetail/pack/1.jpg" alt />
+            <template scope="scope">
+              <img :src="scope.row.imgUrl" width="40" height="40" class="head_pic" />
+            </template>
           </el-table-column>
           <el-table-column prop="title" label="标题" align="center"></el-table-column>
           <el-table-column prop="type" label="套餐" width="150" show-overflow-tooltip align="center"></el-table-column>
@@ -71,7 +73,7 @@
           提交订单应付总额：
           <span>￥{{allCost.toFixed(2)}}</span>
         </p>
-        <router-link to="/pay" tag="el-button">支付订单</router-link>
+        <el-button @click="toPay">支付订单</el-button>
       </div>
     </div>
   </div>
@@ -80,33 +82,31 @@
 <script>
 import Search from "../Search";
 import GoodsNav from "../List/goodsNav";
-import { getUserInfo } from "../../assets/getData";
+import { getUserInfo, addOrder } from "../../assets/getData";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      // 表格数据
-      order: [], //订单数据
-      // 地址信息
+      car: [], //购物车数据
       address: [], //地址信息
-      // 单选框识别
-      radio: "1",
-      // 选中的收件人
-      checkedName: "未选择",
-      // 选中的收货地址
-      checkedAddr: "请选择地址",
-      // 备注
-      input: "",
-      // 总金额
-      allCost: 0
+      radio: "1", // 单选框识别
+      checkedName: "未选择", // 选中的收件人
+      checkedAddr: "请选择地址", // 选中的收货地址
+      input: "", // 备注
+      allCost: 0, // 总金额
+      multipleSelection: []
     };
   },
   components: {
     Search,
     GoodsNav
   },
+  computed: {
+    ...mapGetters(["owner"])
+  },
   async mounted() {
-    var res = await getUserInfo("daimj");
-    this.order = res.data.order;
+    var res = await getUserInfo(this.owner);
+    this.car = res.data.car;
     this.address = res.data.address;
   },
   methods: {
@@ -116,13 +116,32 @@ export default {
       val.forEach(element => {
         this.allCost += element.price;
       });
-      console.log(this.allCost);
+      console.log(val);
+      console.log(this.$refs.multipleTable.store.states.selection);
     },
     // 地址选择事件
     choiceAddress(val) {
       // 参数是选项的索引
       this.checkedName = this.address[val].name;
       this.checkedAddr = this.address[val].area + this.address[val].detailArea;
+    },
+    // 支付订单
+    toPay() {
+      var goodsDetail = this.$refs.multipleTable.store.states.selection;
+      if (goodsDetail.length <= 0) {
+        this.$message({
+          type: "error",
+          message: "请选择要付款的商品！"
+        });
+      } else if (this.checkedName == "未选择") {
+        this.$message({
+          type: "error",
+          message: "请选择收货人信息"
+        });
+      } else {
+        var res = addOrder(this.owner, goodsDetail);
+        this.$router.push("/pay");
+      }
     }
   }
 };
