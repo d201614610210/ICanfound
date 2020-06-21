@@ -10,13 +10,13 @@
       <div class="headerNav">
         <!-- 固定内容 -->
         <ul class="fixCont">
-          <router-link to="/my/mycar" tag="li">购物车</router-link>
+          <router-link to="/" tag="li">商城首页</router-link>
           <span style="padding:0 5px;">|</span>
           <li>网站导航</li>
           <span style="padding:0 5px;">|</span>
           <router-link to="/feedback" tag="li">意见反馈</router-link>
           <span style="padding:0 5px;">|</span>
-          <router-link to="/" tag="li">商城首页</router-link>
+          <li @click="toCar()">购物车</li>
           <span style="padding:0 5px;">|</span>
         </ul>
         <!-- 已登录 -->
@@ -94,6 +94,17 @@ export default {
       // 清除cookie
       this.clearCookie();
       this.$router.push("/login");
+    },
+    // 购物车跳转
+    toCar() {
+      if (this.owner) {
+        this.$router.push("/my/mycar");
+      } else {
+        this.$message({
+          type: "error",
+          message: "请先登录"
+        });
+      }
     },
     // 获取cookie
     getCookie() {

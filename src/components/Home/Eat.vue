@@ -3,7 +3,7 @@
     <div class="eatCont">
       <!-- 标题 -->
       <header>
-        <span>电脑数码</span>
+        <span>爱吃</span>
         <ul class="eatLink">
           <router-link to="/goodsList" tag="li" v-for="(item,index) in link" :key="index">{{item}}</router-link>
         </ul>
@@ -62,6 +62,7 @@ export default {
   },
   async mounted() {
     var res = await getHomeEat();
+    console.log(res)
     this.link = res.data.link;
     this.leftShow = res.data.leftShow;
     this.rightShow = res.data.rightShow;

@@ -24,9 +24,7 @@ export const getHomeDigital = () => axios.get(`http://localhost:3000/data/home/d
 //   return res
 // });
 // 获取首页Eat数据
-export const getHomeEat = () => axios.get(`http://localhost:3000/data/home/eat`).then((res) => {
-  return res
-});
+export const getHomeEat = () => axios.get(`http://localhost:3000/data/home/eat`)
 // export const getHomeEat = () => axios.get(`/data/Home/Eat.json`).then((res) => {
 //   return res
 // });

@@ -71,6 +71,8 @@ export default {
         nums.push(element.num);
       });
       var res = clearCar(this.owner, nums);
+      // this.$router.push('/my/mycar')
+      window.history.go(0)
     }
   }
 };
