@@ -48,13 +48,14 @@ export default {
           break;
         }
         case 1: {
-          var step2 = this.$refs.account.submit();
-          if (!step2) {
-            this.$message.error("请填写正确信息");
-          } else {
-            this.activeStep++;
-            document.querySelector("button").innerText = "去登录";
-          }
+          this.$refs.account.submit().then((step2)=>{
+            if (!step2) {
+              this.$message.error("请填写正确信息");
+            } else {
+              this.activeStep++;
+              document.querySelector("button").innerText = "去登录";
+            }
+          })
           break;
         }
         case 2: {

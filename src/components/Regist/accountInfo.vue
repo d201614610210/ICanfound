@@ -108,7 +108,7 @@ export default {
         )
       ) {
         var res=await addUser(this.username,this.password);
-        console.log(res.data)
+        // console.log(res.data)
         return true;
       } else {
         return false;

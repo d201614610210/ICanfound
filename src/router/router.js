@@ -23,12 +23,17 @@ import MyOrder from "../components/My/myOrder.vue"
 import Regist from '../components/Regist/Regist.vue'
 import Login from '../components/Login/Login.vue'
 // import Regist from '../components/Regist/Regist.vue'
-
+import dd from '../components/dd.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path:'/dd',
+      component:dd,
+      name:dd
+    },
     // 首页
     {
       path: '/',  //首页
